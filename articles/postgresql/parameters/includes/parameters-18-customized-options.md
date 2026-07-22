@@ -2,7 +2,7 @@
 author: nachoalonsoportillo
 ms.author: ialonso
 ms.reviewer: maghan
-ms.date: 07/16/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.topic: include
 ms.custom: automatically generated
@@ -1327,6 +1327,91 @@ ms.custom: automatically generated
 | Allowed values | `off` |
 | Parameter type | read-only |
 | Documentation | [cron.use_background_workers](https://github.com/citusdata/pg_cron) |
+
+
+[!INCLUDE [parameters-azure-notes-void](./parameters-azure-notes-void.md)]
+
+
+
+### duckdb.max_memory
+
+| Attribute | Value |
+| --- | --- |
+| Category | Customized Options |
+| Description | The maximum memory DuckDB can use (e.g., 1GB). |
+| Data type | integer |
+| Default value | `4096` |
+| Allowed values | `1024-688128` |
+| Parameter type | static |
+| Documentation | [duckdb.max_memory](https://github.com/duckdb/pg_duckdb) |
+
+
+[!INCLUDE [parameters-azure-notes-void](./parameters-azure-notes-void.md)]
+
+
+
+### duckdb.max_workers_per_postgres_scan
+
+| Attribute | Value |
+| --- | --- |
+| Category | Customized Options |
+| Description | Maximum number of PostgreSQL workers used for a single Postgres scan. |
+| Data type | integer |
+| Default value | `2` |
+| Allowed values | `0-1024` |
+| Parameter type | static |
+| Documentation | [duckdb.max_workers_per_postgres_scan](https://github.com/duckdb/pg_duckdb) |
+
+
+[!INCLUDE [parameters-azure-notes-void](./parameters-azure-notes-void.md)]
+
+
+
+### duckdb.memory_limit
+
+| Attribute | Value |
+| --- | --- |
+| Category | Customized Options |
+| Description | The maximum memory DuckDB can use (e.g., 1GB), alias for duckdb.max_memory |
+| Data type | integer |
+| Default value | `4096` |
+| Allowed values | `1024-688128` |
+| Parameter type | static |
+| Documentation | [duckdb.memory_limit](https://github.com/duckdb/pg_duckdb) |
+
+
+[!INCLUDE [parameters-azure-notes-void](./parameters-azure-notes-void.md)]
+
+
+
+### duckdb.threads
+
+| Attribute | Value |
+| --- | --- |
+| Category | Customized Options |
+| Description | Maximum number of DuckDB threads per Postgres backend. |
+| Data type | integer |
+| Default value | `-1` |
+| Allowed values | `-1-96` |
+| Parameter type | static |
+| Documentation | [duckdb.threads](https://github.com/duckdb/pg_duckdb) |
+
+
+[!INCLUDE [parameters-azure-notes-void](./parameters-azure-notes-void.md)]
+
+
+
+### duckdb.worker_threads
+
+| Attribute | Value |
+| --- | --- |
+| Category | Customized Options |
+| Description | Maximum number of DuckDB threads per Postgres backend, alias for duckdb.threads. |
+| Data type | integer |
+| Default value | `-1` |
+| Allowed values | `-1-96` |
+| Parameter type | static |
+| Documentation | [duckdb.worker_threads](https://github.com/duckdb/pg_duckdb) |
 
 
 [!INCLUDE [parameters-azure-notes-void](./parameters-azure-notes-void.md)]
