@@ -4,7 +4,7 @@ description: Release notes for Azure Database for PostgreSQL, including feature 
 author: varun-dhawan
 ms.author: varundhawan
 ms.reviewer: maghan
-ms.date: 06/08/2026
+ms.date: 07/24/2026
 ms.service: azure-database-postgresql
 ms.subservice: configuration
 ms.topic: concept-article
@@ -16,6 +16,11 @@ ms.custom:
 # Release notes - Azure Database for PostgreSQL flexible server
 
 This article highlights the latest updates and enhancements for Azure Database for PostgreSQL service, including new feature releases, supported engine versions, available extensions, and other important announcements.
+
+## Release: July 2026
+
+- General availability
+  - Support for new [PgBouncer in Azure Database for PostgreSQL](../connectivity/concepts-pgbouncer.md) 1.25.2. <sup>$</sup>
 
 ## Release: June 2026
 
