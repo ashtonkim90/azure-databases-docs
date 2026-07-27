@@ -4,7 +4,7 @@ description: Complete list of commands in the PostgreSQL extension for Visual St
 author: mmcfarland
 ms.author: mmcfarland
 ms.reviewer: nachoalonsoportillo, maghan
-ms.date: 06/08/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.subservice: extensions
 ms.topic: reference
@@ -12,16 +12,18 @@ ms.topic: reference
 
 # Commands reference
 
-This page lists user-facing commands registered by the PostgreSQL extension. Generated from `package.json` (91 commands).
+This page lists user-facing commands registered by the PostgreSQL extension. Generated from `package.json` (94 commands).
 
 ## PGSQL
 
 | Command | ID | Keybinding |
 | --- | --- | --- |
+| Activity Log | `pgsql.showServerDashboardActivityLog` | - |
 | Add Microsoft Entra Account | `pgsql.addAadAccount` | - |
 | Add New Connection | `pgsql.addNewConnection` | - |
 | Analyze Query Performance | `pgsql.copilot.analyzeQueryPerformance` | - |
 | Ask AI about this Query | `pgsql.copilot.chatWithEditor` | - |
+| Backup... | `pgsql.pgDumpBackup` | - |
 | Backups | `pgsql.showServerDashboardBackups` | - |
 | Cancel Query (PostgreSQL) | `pgsql.cancelQuery` | - |
 | Change Connection (PostgreSQL) | `pgsql.changeConnection` | - |
@@ -56,6 +58,7 @@ This page lists user-facing commands registered by the PostgreSQL extension. Gen
 | Disconnect (PostgreSQL) | `pgsql.disconnect` | ctrl+shift+d (Mac: cmd+shift+d) |
 | Durable Workbench: Refresh Capabilities | `pgsql.durableWorkbench.refreshCapabilities` | - |
 | Edit Connection | `pgsql.editConnection` | - |
+| Edit Data | `pgsql.editTableData` | - |
 | Edit Server Group | `pgsql.editServerGroup` | - |
 | Execute Current Statement (PostgreSQL) | `pgsql.runCurrentStatement` | ctrl+shift+enter (Mac: ctrl+shift+enter) |
 | Execute Query (PostgreSQL) | `pgsql.runQuery` | ctrl+shift+e (Mac: cmd+shift+e), shift+enter (Mac: shift+enter) |
@@ -110,24 +113,32 @@ This page lists user-facing commands registered by the PostgreSQL extension. Gen
 | Visualize Schema | `pgsql.visualizeSchema` | - |
 | Visualize Schema | `pgsql.visualizeSchemaNode` | - |
 
-:::image type="content" source="commands/default-connection-dialog-default.png" alt-text="Screenshot of the connection dialog." lightbox="commands/default-connection-dialog-default.png":::
+:::image type="content" source="media/commands/default-connection-dialog-default.png" alt-text="Screenshot of the connection dialog." lightbox="media/commands/default-connection-dialog-default.png":::
 
-:::image type="content" source="commands/default-terminal-run-file.png" alt-text="Screenshot of the terminal." lightbox="commands/default-terminal-run-file.png":::
+:::image type="content" source="media/commands/default-terminal-run-file.png" alt-text="Screenshot of the terminal." lightbox="media/commands/default-terminal-run-file.png":::
 
-:::image type="content" source="commands/default-create-server-default.png" alt-text="Screenshot of the create server experience." lightbox="commands/default-create-server-default.png":::
+:::image type="content" source="media/commands/default-create-server-default.png" alt-text="Screenshot of the create server experience." lightbox="media/commands/default-create-server-default.png":::
 
-:::image type="content" source="commands/default-server-dashboard-default.png" alt-text="Screenshot of the server dashboard." lightbox="commands/default-server-dashboard-default.png":::
+:::image type="content" source="media/commands/default-server-dashboard-default.png" alt-text="Screenshot of the server dashboard." lightbox="media/commands/default-server-dashboard-default.png":::
 
-:::image type="content" source="commands/default-query-editor-default.png" alt-text="Screenshot of the query editor." lightbox="commands/default-query-editor-default.png":::
+:::image type="content" source="media/commands/default-edit-table-data-default.png" alt-text="Screenshot of edit Data grid for a table with a pending cell edit and the Save and Discard changes bar." lightbox="media/commands/default-edit-table-data-default.png":::
 
-:::image type="content" source="commands/default-object-explorer-default.png" alt-text="Screenshot of the object explorer." lightbox="commands/default-object-explorer-default.png":::
+:::image type="content" source="media/commands/default-query-editor-default.png" alt-text="Screenshot of the query editor." lightbox="media/commands/default-query-editor-default.png":::
 
-:::image type="content" source="commands/default-oracle-migration-migration-project-setup.png" alt-text="Screenshot of the Oracle migration experience." lightbox="commands/default-oracle-migration-migration-project-setup.png":::
+:::image type="content" source="media/commands/default-results-grid-default.png" alt-text="Screenshot of the results grid." lightbox="media/commands/default-results-grid-default.png":::
 
-:::image type="content" source="commands/default-query-plan-default.png" alt-text="Screenshot of the query plan visualizer." lightbox="commands/default-query-plan-default.png":::
+:::image type="content" source="media/commands/default-object-explorer-default.png" alt-text="Screenshot of the object explorer." lightbox="media/commands/default-object-explorer-default.png":::
+
+:::image type="content" source="media/commands/default-oracle-migration-migration-project-setup.png" alt-text="Screenshot of the Oracle migration experience." lightbox="media/commands/default-oracle-migration-migration-project-setup.png":::
+
+:::image type="content" source="media/commands/default-query-history-query-history.png" alt-text="Screenshot of the query history." lightbox="media/commands/default-query-history-query-history.png":::
+
+:::image type="content" source="media/commands/default-query-plan-default.png" alt-text="Screenshot of the query plan visualizer." lightbox="media/commands/default-query-plan-default.png":::
+
+:::image type="content" source="media/commands/default-schema-visualizer-default.png" alt-text="Screenshot of the schema visualizer." lightbox="media/commands/default-schema-visualizer-default.png":::
 
 ## Related content
 
 - [Settings reference](settings.md)
 - [Keyboard shortcuts reference](keyboard-shortcuts.md)
-- [PostgreSQL extension for Visual Studio Code](../postgresql-extension-overview.md)
+- [PostgreSQL extension for Visual Studio Code and Cursor](../postgresql-extension-overview.md)

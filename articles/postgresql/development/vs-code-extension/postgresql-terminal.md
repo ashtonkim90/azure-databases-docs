@@ -5,7 +5,7 @@ description: Open connected terminal sessions with psql or run SQL files directl
 author: mmcfarland
 ms.author: mmcfarland
 ms.reviewer: nachoalonsoportillo, maghan
-ms.date: 06/08/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.subservice: extensions
 ms.topic: how-to
@@ -20,10 +20,10 @@ The extension passes connection details (host, port, database, user, and passwor
 
 ## Prerequisites
 
-- [PostgreSQL extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql) installed.
+- The PostgreSQL extension installed from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql) in Visual Studio Code or the [Open VSX Registry](https://open-vsx.org/extension/microsoft/cursor-pgsql) in Cursor.
 - An active connection to a PostgreSQL server. For setup steps, see [Quickstart: Connect and query PostgreSQL](quickstart-connect-query.md).
 - The `psql` command-line client installed on your system.
-- Open a workspace folder in Visual Studio Code.
+- A workspace folder open in Visual Studio Code or Cursor.
 
 > [!NOTE]  
 > If the extension can't locate `psql`, it shows an error notification with a **Learn More** link to the [PostgreSQL downloads page](https://www.postgresql.org/download/). You can also point the extension to a custom install location with the `pgsql.pgBinaryDirs` setting. See [Configure the psql binary path](#configure-the-psql-binary-path).
@@ -63,11 +63,11 @@ The extension saves the file, then runs `psql -f <filepath>` against the active 
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="postgresql-terminal/default-terminal-run-file.png" alt-text="Screenshot of run file with PSQL command in editor." lightbox="postgresql-terminal/default-terminal-run-file.png":::
+:::image type="content" source="media/postgresql-terminal/default-terminal-run-file.png" alt-text="Screenshot of run file with PSQL command in editor." lightbox="media/postgresql-terminal/default-terminal-run-file.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="postgresql-terminal/cursor-editor-terminal-run-file.png" alt-text="Screenshot of run file with PSQL command in editor." lightbox="postgresql-terminal/cursor-editor-terminal-run-file.png":::
+:::image type="content" source="media/postgresql-terminal/cursor-editor-terminal-run-file.png" alt-text="Screenshot of run file with PSQL command in editor." lightbox="media/postgresql-terminal/cursor-editor-terminal-run-file.png":::
 
 ---
 

@@ -5,7 +5,7 @@ description: Migrate from Oracle to PostgreSQL using the built-in migration tool
 author: mmcfarland
 ms.author: mmcfarland
 ms.reviewer: nachoalonsoportillo, maghan
-ms.date: 06/08/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.subservice: extensions
 ms.topic: how-to
@@ -26,7 +26,7 @@ Before you begin, ensure you have:
 - [Visual Studio Code](https://code.visualstudio.com/) installed.
 - The [PostgreSQL extension](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql) installed.
 - Access to an Oracle source database with read permissions for schema extraction.
-- A PostgreSQL instance to use as a scratch validation database (for example, an Azure Database for PostgreSQL flexible server).
+- A PostgreSQL instance to use as a scratch validation database (for example, an Azure Database for PostgreSQL flexible server or Azure HorizonDB).
 - A Microsoft Foundry resource with a deployed `gpt-5.2` model. You need the endpoint URL and either an API key or a Microsoft Entra ID account with access.
 
 ## Verify the migrations feature is enabled
@@ -58,7 +58,7 @@ A migration project is a four-step wizard that collects your source, target, and
 1. Enter a name in the **Project Name** field.
 1. Select **Next: Oracle Connection**.
 
-:::image type="content" source="oracle-migration/default-oracle-migration-migration-project-setup.png" alt-text="Screenshot of new migration project page with Project Name field." lightbox="oracle-migration/default-oracle-migration-migration-project-setup.png":::
+:::image type="content" source="media/oracle-migration/default-oracle-migration-migration-project-setup.png" alt-text="Screenshot of new migration project page with Project Name field." lightbox="media/oracle-migration/default-oracle-migration-migration-project-setup.png":::
 
 ### Step 2: Connect to Oracle
 
@@ -87,7 +87,9 @@ The **Choose an Azure Database for PostgreSQL scratch database** page selects th
 
 1. In the **PostgreSQL Connection** dropdown list, select an existing connection profile. If the connection you need isn't listed, select **Refresh Profiles** to reload available profiles, or create a new connection in the [Connections and identity](connections.md) view first.
 1. In the **PostgreSQL Database** dropdown list, select the target database. Select **Load Databases** if the list is empty.
-1. After you select a database, the extension automatically verifies that recommended PostgreSQL extensions are installed. You can also select **Verify Extensions** to run the check manually. If any extensions are missing, the page lists them and provides guidance on allowlisting and installing them through the Azure Database for PostgreSQL flexible server documentation.
+1. After you select a database, the extension checks recommended PostgreSQL extensions. The behavior depends on the target:
+   - **Azure Database for PostgreSQL flexible server**: the extension automatically verifies that recommended extensions are installed. You can also select **Verify Extensions** to run the check manually. If any extensions are missing, the page lists them with guidance on allowlisting and installing them.
+   - **Azure HorizonDB**: the extension lists the recommended extensions for the selected database and links to the Azure HorizonDB documentation. Allowlist and install those extensions before you start schema conversion.
 1. Select **Next: Microsoft Foundry Model Configuration**.
 
 ### Step 4: Configure the Microsoft Foundry model

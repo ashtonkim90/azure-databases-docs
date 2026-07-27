@@ -5,7 +5,7 @@ description: Learn how to connect to a PostgreSQL database and run your first qu
 author: mmcfarland
 ms.author: mmcfarland
 ms.reviewer: nachoalonsoportillo, maghan
-ms.date: 06/08/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.subservice: extensions
 ms.topic: quickstart
@@ -14,7 +14,7 @@ ms.topic: quickstart
 
 # Quickstart: Connect and query PostgreSQL
 
-In this quickstart, you use the PostgreSQL extension for Visual Studio Code to connect to a PostgreSQL server, create a table, insert rows, and run a query, all from inside VS Code.
+In this quickstart, you use the PostgreSQL extension in Visual Studio Code or Cursor to connect to a PostgreSQL server, create a table, insert rows, and run a query, all from inside your editor.
 
 ## What you'll learn
 
@@ -27,8 +27,8 @@ In this quickstart, you use the PostgreSQL extension for Visual Studio Code to c
 
 Before you begin, make sure you have the following:
 
-- [Visual Studio Code](https://code.visualstudio.com/) installed.
-- The [PostgreSQL extension for Visual Studio Code](postgresql-extension-overview.md) installed from the Extensions Marketplace.
+- [Visual Studio Code](https://code.visualstudio.com/) or Cursor installed.
+- The [PostgreSQL extension for Visual Studio Code and Cursor](postgresql-extension-overview.md) installed from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql) in Visual Studio Code or the [Open VSX Registry](https://open-vsx.org/extension/microsoft/cursor-pgsql) in Cursor.
 - Access to a running PostgreSQL server. You can use a local installation, a [Docker container](https://hub.docker.com/_/postgres), or any on-premises or cloud-provided PostgreSQL instance.
 
 ## Connect to a server
@@ -37,7 +37,7 @@ Before you begin, make sure you have the following:
 
 1. Hover over the **Connections** section header and select **Add New Connection** (the **+** icon). The connection dialog opens with the **Parameters** tab selected.
 
-   :::image type="content" source="quickstart-connect-query/default-connection-dialog-default.png" alt-text="Screenshot of connection dialog with Parameters tab visible." lightbox="quickstart-connect-query/default-connection-dialog-default.png":::
+   :::image type="content" source="media/quickstart-connect-query/default-connection-dialog-default.png" alt-text="Screenshot of connection dialog with Parameters tab visible." lightbox="media/quickstart-connect-query/default-connection-dialog-default.png":::
 
 1. Fill in the connection fields for your PostgreSQL server:
 
@@ -93,9 +93,9 @@ Replace the contents of the query editor with the following statement and run it
 ```sql
 INSERT INTO customers (name, email, city)
 VALUES
-    ('Alice Johnson', 'alice@example.com', 'Seattle'),
-    ('Bob Smith', 'bob@example.com', 'Portland'),
-    ('Carol Williams', 'carol@example.com', 'San Francisco');
+    ('Alice Johnson', 'alice@adventure-works.com', 'Seattle'),
+    ('Bob Smith', 'bob@adventure-works.com', 'Portland'),
+    ('Carol Williams', 'carol@adventure-works.com', 'San Francisco');
 ```
 
 The **Messages** panel confirms that three rows were inserted.
@@ -112,11 +112,11 @@ The **Results** panel displays the three rows you inserted.
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="quickstart-connect-query/default-results-grid-quickstart-customers.png" alt-text="Screenshot of postgreSQL Query Results panel showing customer query output rows." lightbox="quickstart-connect-query/default-results-grid-quickstart-customers.png":::
+:::image type="content" source="media/quickstart-connect-query/default-results-grid-quickstart-customers.png" alt-text="Screenshot of postgreSQL Query Results panel showing customer query output rows." lightbox="media/quickstart-connect-query/default-results-grid-quickstart-customers.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="quickstart-connect-query/cursor-editor-results-grid-quickstart-customers.png" alt-text="Screenshot of postgreSQL Query Results panel showing customer query output rows." lightbox="quickstart-connect-query/cursor-editor-results-grid-quickstart-customers.png":::
+:::image type="content" source="media/quickstart-connect-query/cursor-editor-results-grid-quickstart-customers.png" alt-text="Screenshot of postgreSQL Query Results panel showing customer query output rows." lightbox="media/quickstart-connect-query/cursor-editor-results-grid-quickstart-customers.png":::
 
 ---
 

@@ -1,11 +1,11 @@
 ---
-title: Schema Visualizer
+title: Schema visualizer
 titleSuffix: PostgreSQL extension for Visual Studio Code
 description: Explore PostgreSQL table relationships in an interactive schema visualizer with filtering, refresh, and layout controls.
 author: mmcfarland
 ms.author: mmcfarland
 ms.reviewer: nachoalonsoportillo, maghan
-ms.date: 06/08/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.subservice: extensions
 ms.topic: concept-article
@@ -44,7 +44,15 @@ Before you open the schema visualizer, make sure you have:
 
 The visualizer opens a new editor tab and loads the tables, columns, and foreign key relationships for that database.
 
-:::image type="content" source="schema-visualizer/cursor-editor-schema-visualizer-default.png" alt-text="Screenshot of the schema visualizer showing a database entity-relationship diagram." lightbox="schema-visualizer/cursor-editor-schema-visualizer-default.png":::
+# [Visual Studio Code](#tab/vscode)
+
+:::image type="content" source="media/schema-visualizer/default-schema-visualizer-default.png" alt-text="Screenshot of schema visualizer showing database entity-relationship diagram." lightbox="media/schema-visualizer/default-schema-visualizer-default.png":::
+
+# [Cursor](#tab/cursor)
+
+:::image type="content" source="media/schema-visualizer/cursor-editor-schema-visualizer-default.png" alt-text="Screenshot of schema visualizer showing database entity-relationship diagram." lightbox="media/schema-visualizer/cursor-editor-schema-visualizer-default.png":::
+
+---
 
 If you already work from [Server dashboard](server-dashboard.md), select **Visualize schema** in the toolbar and then choose the database you want to open.
 
@@ -66,7 +74,15 @@ Each table appears as a node on the canvas. The node header shows the schema and
 
 Relationship lines connect foreign key columns to the referenced columns on related tables. Follow those lines when you need to understand join paths, parent-child relationships, or cross-schema dependencies.
 
-:::image type="content" source="schema-visualizer/cursor-editor-schema-visualizer-default.png" alt-text="Screenshot of the schema visualizer relationship map with table connections." lightbox="schema-visualizer/cursor-editor-schema-visualizer-default.png":::
+# [Visual Studio Code](#tab/vscode)
+
+:::image type="content" source="media/schema-visualizer/default-schema-visualizer-default.png" alt-text="Screenshot of schema visualizer relationship map with table connections." lightbox="media/schema-visualizer/default-schema-visualizer-default.png":::
+
+# [Cursor](#tab/cursor)
+
+:::image type="content" source="media/schema-visualizer/cursor-editor-schema-visualizer-default.png" alt-text="Screenshot of schema visualizer relationship map with table connections." lightbox="media/schema-visualizer/cursor-editor-schema-visualizer-default.png":::
+
+---
 
 > [!NOTE]  
 > The schema visualizer focuses on table relationships. It shows tables and foreign key constraints only. For views, functions, sequences, and object definitions, use [Object explorer](object-explorer.md).
@@ -83,11 +99,11 @@ When you hide a schema, the remaining tables can still show colored indicators f
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="schema-visualizer/default-schema-visualizer-schema-legend.png" alt-text="Screenshot of schema legend with per-schema visibility toggles." lightbox="schema-visualizer/default-schema-visualizer-schema-legend.png":::
+:::image type="content" source="media/schema-visualizer/default-schema-visualizer-schema-legend.png" alt-text="Screenshot of schema legend with per-schema visibility toggles." lightbox="media/schema-visualizer/default-schema-visualizer-schema-legend.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="schema-visualizer/cursor-editor-schema-visualizer-schema-legend.png" alt-text="Screenshot of schema legend with per-schema visibility toggles." lightbox="schema-visualizer/cursor-editor-schema-visualizer-schema-legend.png":::
+:::image type="content" source="media/schema-visualizer/cursor-editor-schema-visualizer-schema-legend.png" alt-text="Screenshot of schema legend with per-schema visibility toggles." lightbox="media/schema-visualizer/cursor-editor-schema-visualizer-schema-legend.png":::
 
 ---
 
@@ -103,11 +119,11 @@ The schema visualizer includes navigation and layout controls so you can reframe
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="schema-visualizer/default-schema-visualizer-navigation-controls.png" alt-text="Screenshot of zoom and layout controls for the schema visualizer." lightbox="schema-visualizer/default-schema-visualizer-navigation-controls.png":::
+:::image type="content" source="media/schema-visualizer/default-schema-visualizer-navigation-controls.png" alt-text="Screenshot of zoom and layout controls for the schema visualizer." lightbox="media/schema-visualizer/default-schema-visualizer-navigation-controls.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="schema-visualizer/cursor-editor-schema-visualizer-navigation-controls.png" alt-text="Screenshot of zoom and layout controls for the schema visualizer." lightbox="schema-visualizer/cursor-editor-schema-visualizer-navigation-controls.png":::
+:::image type="content" source="media/schema-visualizer/cursor-editor-schema-visualizer-navigation-controls.png" alt-text="Screenshot of zoom and layout controls for the schema visualizer." lightbox="media/schema-visualizer/cursor-editor-schema-visualizer-navigation-controls.png":::
 
 ---
 

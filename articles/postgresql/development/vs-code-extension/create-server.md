@@ -5,7 +5,7 @@ description: Create a new PostgreSQL server using Docker or Azure Database for P
 author: mmcfarland
 ms.author: mmcfarland
 ms.reviewer: nachoalonsoportillo, maghan
-ms.date: 06/08/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.subservice: extensions
 ms.topic: how-to
@@ -32,11 +32,11 @@ The PostgreSQL extension for Visual Studio Code lets you create new PostgreSQL s
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="create-server/default-object-explorer-create-server-toolbar.png" alt-text="Screenshot of connections tree toolbar with Create New Server button." lightbox="create-server/default-object-explorer-create-server-toolbar.png":::
+:::image type="content" source="media/create-server/default-object-explorer-create-server-toolbar.png" alt-text="Screenshot of connections tree toolbar with Create New Server button." lightbox="media/create-server/default-object-explorer-create-server-toolbar.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="create-server/cursor-editor-object-explorer-create-server-toolbar.png" alt-text="Screenshot of connections tree toolbar with Create New Server button." lightbox="create-server/cursor-editor-object-explorer-create-server-toolbar.png":::
+:::image type="content" source="media/create-server/cursor-editor-object-explorer-create-server-toolbar.png" alt-text="Screenshot of connections tree toolbar with Create New Server button." lightbox="media/create-server/cursor-editor-object-explorer-create-server-toolbar.png":::
 
 ---
 
@@ -52,11 +52,11 @@ Select the card that matches your scenario.
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="create-server/default-create-server-create-server-hub.png" alt-text="Screenshot of create New PostgreSQL Server hub with provider cards." lightbox="create-server/default-create-server-create-server-hub.png":::
+:::image type="content" source="media/create-server/default-create-server-create-server-hub.png" alt-text="Screenshot of create New PostgreSQL Server hub with provider cards." lightbox="media/create-server/default-create-server-create-server-hub.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="create-server/cursor-editor-create-server-create-server-hub.png" alt-text="Screenshot of create New PostgreSQL Server hub with provider cards." lightbox="create-server/cursor-editor-create-server-create-server-hub.png":::
+:::image type="content" source="media/create-server/cursor-editor-create-server-create-server-hub.png" alt-text="Screenshot of create New PostgreSQL Server hub with provider cards." lightbox="media/create-server/cursor-editor-create-server-create-server-hub.png":::
 
 ---
 
@@ -108,11 +108,11 @@ Select **Advanced Options** to expand additional settings:
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="create-server/default-create-server-docker-config-form.png" alt-text="Screenshot of docker server configuration form." lightbox="create-server/default-create-server-docker-config-form.png":::
+:::image type="content" source="media/create-server/default-create-server-docker-config-form.png" alt-text="Screenshot of docker server configuration form." lightbox="media/create-server/default-create-server-docker-config-form.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="create-server/cursor-editor-create-server-docker-config-form.png" alt-text="Screenshot of docker server configuration form." lightbox="create-server/cursor-editor-create-server-docker-config-form.png":::
+:::image type="content" source="media/create-server/cursor-editor-create-server-docker-config-form.png" alt-text="Screenshot of docker server configuration form." lightbox="media/create-server/cursor-editor-create-server-docker-config-form.png":::
 
 ---
 
@@ -169,6 +169,8 @@ After authentication, the extension displays a configuration form organized into
 | --- | --- |
 | **Server Name** | A globally unique name for the server. The extension checks availability asynchronously and displays an error if the name is taken. The server name becomes part of your connection hostname (`<server-name>.postgres.database.azure.com`). |
 | **Region** | The Azure region where the server is deployed. The extension validates that your subscription can provision in the selected region. |
+| **Cluster options** | Choose **Flexible Server - single node** for a single-node server, or **Elastic Cluster - shard data across multiple nodes** for a multinode distributed (Citus) database. Choosing **Elastic Cluster** reveals additional settings. |
+| **Node count** | (Elastic Cluster only) Use the **Node count** slider to choose the number of nodes in the cluster, from 1 to 20. |
 | **Compute + storage** | Select a preconfigured compute and storage tier. The available bundles are: |
 
 | Bundle | vCores | Storage | SKU |
@@ -284,11 +286,11 @@ After authentication, the extension displays a configuration form organized into
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="create-server/default-create-server-horizon-config-form.png" alt-text="Screenshot of azure HorizonDB (Preview) cluster configuration form with project details, cluster settings, vCores slider, authentication, and AI capabilities." lightbox="create-server/default-create-server-horizon-config-form.png":::
+:::image type="content" source="media/create-server/default-create-server-horizon-config-form.png" alt-text="Screenshot of azure HorizonDB (Preview) cluster configuration form with project details, cluster settings, vCores slider, authentication, and AI capabilities." lightbox="media/create-server/default-create-server-horizon-config-form.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="create-server/cursor-editor-create-server-horizon-config-form.png" alt-text="Screenshot of azure HorizonDB (Preview) cluster configuration form with project details, cluster settings, vCores slider, authentication, and AI capabilities." lightbox="create-server/cursor-editor-create-server-horizon-config-form.png":::
+:::image type="content" source="media/create-server/cursor-editor-create-server-horizon-config-form.png" alt-text="Screenshot of azure HorizonDB (Preview) cluster configuration form with project details, cluster settings, vCores slider, authentication, and AI capabilities." lightbox="media/create-server/cursor-editor-create-server-horizon-config-form.png":::
 
 ---
 

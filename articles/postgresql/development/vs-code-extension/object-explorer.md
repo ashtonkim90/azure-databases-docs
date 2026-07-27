@@ -5,7 +5,7 @@ description: Browse database objects, search across schemas, and generate SQL sc
 author: mmcfarland
 ms.author: mmcfarland
 ms.reviewer: nachoalonsoportillo, maghan
-ms.date: 06/08/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.subservice: extensions
 ms.topic: how-to
@@ -27,11 +27,11 @@ The view contains the **Connections** section, which displays your servers in a 
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="object-explorer/default-object-explorer-default.png" alt-text="Screenshot of postgreSQL view with a connected server expanded in the Connections tree." lightbox="object-explorer/default-object-explorer-default.png":::
+:::image type="content" source="media/object-explorer/default-object-explorer-default.png" alt-text="Screenshot of postgreSQL view with a connected server expanded in the Connections tree." lightbox="media/object-explorer/default-object-explorer-default.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="object-explorer/cursor-editor-object-explorer-default.png" alt-text="Screenshot of postgreSQL view with a connected server expanded in the Connections tree." lightbox="object-explorer/cursor-editor-object-explorer-default.png":::
+:::image type="content" source="media/object-explorer/cursor-editor-object-explorer-default.png" alt-text="Screenshot of postgreSQL view with a connected server expanded in the Connections tree." lightbox="media/object-explorer/cursor-editor-object-explorer-default.png":::
 
 ---
 
@@ -56,6 +56,19 @@ Expand any collection folder to see individual objects. For tables, you can dril
 
 > [!NOTE]  
 > The `pgsql.objectExplorer.expandTimeout` setting controls how long the extension waits when expanding a node. The default is 45 seconds. Increase this value if you work with large schemas that take longer to load.
+
+### Elastic Cluster (Citus) table roles
+
+When you connect to an Azure Database for PostgreSQL Elastic Cluster (Citus), Object explorer marks each table with its distribution role. A short badge appears next to the table name, and a distinct icon shows the role at a glance:
+
+| Badge | Meaning |
+| --- | --- |
+| **(distributed)** | A distributed table, sharded across worker nodes. |
+| **(reference)** | A reference table, replicated to every node. |
+| **(local)** | A local table added to Citus metadata but not sharded. |
+| **(distributed schema)** | A schema whose tables are co-located on a single worker. |
+
+Hover over a node to see the full role description in a tooltip.
 
 ### Group by schema
 
@@ -136,11 +149,11 @@ Select **Search** to run the query. Results display in a grid with **Object Name
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="object-explorer/default-object-explorer-object-explorer-search-panel.png" alt-text="Screenshot of search Objects panel with search results." lightbox="object-explorer/default-object-explorer-object-explorer-search-panel.png":::
+:::image type="content" source="media/object-explorer/default-object-explorer-object-explorer-search-panel.png" alt-text="Screenshot of search Objects panel with search results." lightbox="media/object-explorer/default-object-explorer-object-explorer-search-panel.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="object-explorer/cursor-editor-object-explorer-object-explorer-search-panel.png" alt-text="Screenshot of search Objects panel with search results." lightbox="object-explorer/cursor-editor-object-explorer-object-explorer-search-panel.png":::
+:::image type="content" source="media/object-explorer/cursor-editor-object-explorer-object-explorer-search-panel.png" alt-text="Screenshot of search Objects panel with search results." lightbox="media/object-explorer/cursor-editor-object-explorer-object-explorer-search-panel.png":::
 
 ---
 
@@ -160,6 +173,8 @@ Each generated script opens in a new query editor tab connected to the same data
 
 > [!TIP]  
 > **Select Top 1000** is the fastest way to preview table data. Right-click the table and select **Select Top 1000** to open and run the query in one step.
+
+To change table rows in place instead of previewing them, right-click a table and select **Edit Data** to open an editable grid. For details, see [Edit table data](edit-table-data.md).
 
 ## Copy name
 
