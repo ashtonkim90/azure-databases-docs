@@ -2,7 +2,7 @@
 author: rwestMSFT
 ms.author: randolphwest 
 ms.date: 09/18/2024
-ms.service: sql-database
+ms.service: azure-sql-database
 ms.topic: include
 ms.collection:
   - sql-migration-content
