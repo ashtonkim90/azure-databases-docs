@@ -4,9 +4,9 @@ description: Resource Usage / Background Writer parameters for Azure Database fo
 author: nachoalonsoportillo
 ms.author: ialonso
 ms.reviewer: maghan
-ms.date: 07/22/2026
+ms.date: 07/10/2026
 ms.service: azure-database-postgresql
-ms.subservice: parameters
+ms.subservice: server-parameters
 ms.topic: concept-article
 ms.custom: automatically generated
 zone_pivot_groups: postgresql-server-version
