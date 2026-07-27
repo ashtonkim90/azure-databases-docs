@@ -22,7 +22,7 @@ ms.custom:
 | [btree_gin](https://www.postgresql.org/docs/current/btree-gin.html) provides support for indexing common datatypes in GIN. | 1.3 | |
 | [btree_gist](https://www.postgresql.org/docs/current/btree-gist.html) provides support for indexing common datatypes in GiST. | 1.6 | |
 | [citext](https://www.postgresql.org/docs/current/citext.html) is a data type for case-insensitive character strings. | 1.6 | |
-| [credcheck](https://github.com/HexaCluster/credcheck) provides few general credential checks, which will be evaluated during the user creation, during the password change and user renaming. | 3.0.0 <sup>*</sup> | <sup>*</sup> Set the `shared_preload_libraries` parameter to enable the corresponding libraries. |
+| [credcheck](https://github.com/HexaCluster/credcheck) provides few general credential checks, which are evaluated during the user creation, during the password change and user renaming. | 3.0.0 <sup>*</sup> | <sup>*</sup> Set the `shared_preload_libraries` parameter to enable the corresponding libraries. |
 | [cube](https://www.postgresql.org/docs/current/cube.html) is a data type for multidimensional cubes. | 1.5 | |
 | [dblink](https://www.postgresql.org/docs/current/dblink.html) to connect to other PostgreSQL databases from within a database. | 1.2 | Read the special considerations for extension [dblink](../concepts-extensions-considerations.md#dblink) in flexible server. |
 | [dict_int](https://www.postgresql.org/docs/current/dict-int.html) provides a text search dictionary template for integers. | 1.0 | |
