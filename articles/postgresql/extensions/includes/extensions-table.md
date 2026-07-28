@@ -2,7 +2,7 @@
 author: akashraokm
 ms.author: akashrao
 ms.reviewer: maghan, randolphwest
-ms.date: 07/16/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.subservice: extensions
 ms.topic: include
@@ -601,6 +601,9 @@ Read the special considerations for extension [pgcrypto](../concepts-extensions-
 | 12 | Not supported |
 | 11 | Not supported |
 
+
+## pg_failover_slots
+
 [pg_failover_slots](https://github.com/EnterpriseDB/pg_failover_slots) is a logical replication slot manager for failover purposes.
 
 | PostgreSQL version | Extension or module version |
@@ -874,7 +877,7 @@ Read the special considerations for extension [pgstattuple](../concepts-extensio
 | 12 | 1.0 |
 | 11 | 1.0 |
 
-<sup>*</sup> Set the `shared_preload_libraries` parameter to enable the corresponding libraries.
+
 ## plpgsql_check
 
 [plpgsql_check](https://github.com/okbob/plpgsql_check) full linter for plpgsql for PostgreSQL
