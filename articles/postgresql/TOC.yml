@@ -83,8 +83,12 @@
           href: development/vs-code-extension/advanced-connection-options.md
         - name: Query editor and IntelliSense
           href: development/vs-code-extension/query-editor-intellisense.md
+        - name: Parameterized queries
+          href: development/vs-code-extension/parameterized-queries.md
         - name: Object explorer
           href: development/vs-code-extension/object-explorer.md
+        - name: Edit table data
+          href: development/vs-code-extension/edit-table-data.md
         - name: Query plan visualizer
           href: development/vs-code-extension/query-plan-visualizer.md
         - name: Schema visualizer

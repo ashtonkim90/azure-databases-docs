@@ -2,7 +2,7 @@
 author: nachoalonsoportillo
 ms.author: ialonso
 ms.reviewer: maghan
-ms.date: 06/29/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.topic: include
 ms.custom: automatically generated
@@ -269,8 +269,8 @@ ms.custom: automatically generated
 | Category | Preset Options |
 | Description | Shows the size of the server's main shared memory area (rounded up to the nearest MB). |
 | Data type | integer |
-| Default value | `8743` |
-| Allowed values | `8743` |
+| Default value | `8744` |
+| Allowed values | `8744` |
 | Parameter type | read-only |
 | Documentation | [shared_memory_size](https://www.postgresql.org/docs/18/runtime-config-preset.html#GUC-SHARED-MEMORY-SIZE) |
 

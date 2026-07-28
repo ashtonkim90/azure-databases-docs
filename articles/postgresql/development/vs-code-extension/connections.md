@@ -31,11 +31,11 @@ When you open a new dialog, the header reads **New Connection** and the title re
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="connections/default-connection-dialog-default.png" alt-text="Screenshot of connection dialog with Parameters tab visible." lightbox="connections/default-connection-dialog-default.png":::
+:::image type="content" source="media/connections/default-connection-dialog-default.png" alt-text="Screenshot of connection dialog with Parameters tab visible." lightbox="media/connections/default-connection-dialog-default.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="connections/cursor-editor-connection-dialog-default.png" alt-text="Screenshot of connection dialog with Parameters tab visible." lightbox="connections/cursor-editor-connection-dialog-default.png":::
+:::image type="content" source="media/connections/cursor-editor-connection-dialog-default.png" alt-text="Screenshot of connection dialog with Parameters tab visible." lightbox="media/connections/cursor-editor-connection-dialog-default.png":::
 
 ---
 
@@ -243,11 +243,11 @@ Server groups help you organize connections in the **Connections** tree. You can
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="connections/default-connection-dialog-server-group-dialog.png" alt-text="Screenshot of server group create and edit dialog." lightbox="connections/default-connection-dialog-server-group-dialog.png":::
+:::image type="content" source="media/connections/default-connection-dialog-server-group-dialog.png" alt-text="Screenshot of server group create and edit dialog." lightbox="media/connections/default-connection-dialog-server-group-dialog.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="connections/cursor-editor-connection-dialog-server-group-dialog.png" alt-text="Screenshot of server group create and edit dialog." lightbox="connections/cursor-editor-connection-dialog-server-group-dialog.png":::
+:::image type="content" source="media/connections/cursor-editor-connection-dialog-server-group-dialog.png" alt-text="Screenshot of server group create and edit dialog." lightbox="media/connections/cursor-editor-connection-dialog-server-group-dialog.png":::
 
 ---
 

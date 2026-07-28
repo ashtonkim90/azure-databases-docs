@@ -4,7 +4,7 @@ description: Complete list of settings in the PostgreSQL extension for Visual St
 author: mmcfarland
 ms.author: mmcfarland
 ms.reviewer: nachoalonsoportillo, maghan
-ms.date: 06/08/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.subservice: extensions
 ms.topic: reference
@@ -12,7 +12,7 @@ ms.topic: reference
 
 # Settings reference
 
-This page lists all settings contributed by the PostgreSQL extension. Generated from `package.json` (43 settings).
+This page lists all settings contributed by the PostgreSQL extension. Generated from `package.json` (48 settings).
 
 ## Connections
 
@@ -20,7 +20,7 @@ This page lists all settings contributed by the PostgreSQL extension. Generated 
 | --- | --- | --- | --- | --- |
 | `pgsql.azureActiveDirectory` | string; one of `AuthCodeGrant`, `DeviceCode` | `"AuthCodeGrant"` | application | Chooses which Authentication method to use |
 | `pgsql.connections` | array | - | resource | Connection profiles defined in 'User Settings' are shown under 'PostgreSQL: Connect' command in the command palette. |
-| `pgsql.maxConnections` | number | `10` | resource | The maximum number of simultanious connections to open at __per profile + database__. Connections to the same server, but to different databases, doesn't count to the same total. The default value is 10. |
+| `pgsql.maxConnections` | number | `10` | resource | The maximum number of simultaneous connections to open at __per profile + database__. Connections to the same server, but to different databases, doesn't count to the same total. The default value is 10. |
 | `pgsql.maxRecentConnections` | number | `5` | window | The maximum number of recently used connections to store in the connection list. |
 | `pgsql.serverGroups` | array | - | resource | Server groups |
 
@@ -107,7 +107,12 @@ This page lists all settings contributed by the PostgreSQL extension. Generated 
 | Setting | Type | Default | Scope | Description |
 | --- | --- | --- | --- | --- |
 | `azureResourceGroups.selectedSubscriptions` | array | - | - | Selected Subscriptions |
+| `pgsql.editData.dateTimeEditor` | string; one of `native`, `text` | `"native"` | window | Controls whether Edit Data uses native date/time inputs or plain text inputs for date and time cells. |
+| `pgsql.editData.rowLimit` | number | `200` | resource | Maximum number of rows to load when editing table data. |
+| `pgsql.editData.tabPastLastCell` | string; one of `addRow`, `stop` | `"addRow"` | window | Controls what happens when tabbing forward past the final editable cell in Edit Data. |
+| `pgsql.enablePgDumpRestoreUI` | boolean | `false` | window | Enable pg_dump backup UI in Server Dashboard (Preview). |
 | `pgsql.horizonCreate.enableAiModelManagement` | boolean | `false` | application | Preview: shows the AI Model Management UI in the **Create Azure HorizonDB** wizard. This feature is in preview and might change. Restart the wizard after toggling. |
+| `pgsql.queryPlaceholders.historyValueRetention` | string; one of `ask`, `always`, `never` | `"ask"` | window | Controls whether parameter values are retained in this session's query history; values are kept in memory only and cleared on VS Code reload. |
 
 ## Complex default values
 
@@ -137,4 +142,4 @@ This page lists all settings contributed by the PostgreSQL extension. Generated 
 
 - [Commands reference](commands.md)
 - [Keyboard shortcuts reference](keyboard-shortcuts.md)
-- [PostgreSQL extension for Visual Studio Code](../postgresql-extension-overview.md)
+- [PostgreSQL extension for Visual Studio Code and Cursor](../postgresql-extension-overview.md)

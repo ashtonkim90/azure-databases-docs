@@ -1,11 +1,11 @@
 ---
-title: Query Editor and IntelliSense
+title: Query editor and IntelliSense
 titleSuffix: PostgreSQL extension for Visual Studio Code
 description: Write and execute PostgreSQL queries with IntelliSense, view results in the results grid, export data, and use code snippets in the PostgreSQL extension for Visual Studio Code.
 author: mmcfarland
 ms.author: mmcfarland
 ms.reviewer: nachoalonsoportillo, maghan
-ms.date: 06/08/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.subservice: extensions
 ms.topic: how-to
@@ -18,7 +18,7 @@ The PostgreSQL extension for Visual Studio Code provides a query editor with Int
 
 ## Prerequisites
 
-- [PostgreSQL extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql) installed.
+- The PostgreSQL extension installed from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql) in Visual Studio Code or the [Open VSX Registry](https://open-vsx.org/extension/microsoft/cursor-pgsql) in Cursor.
 - An active connection to a PostgreSQL server. For setup steps, see [Quickstart: Connect and query PostgreSQL](quickstart-connect-query.md).
 
 ## Open a query editor
@@ -106,7 +106,17 @@ To stop a long-running query, run `PGSQL: Cancel PostgreSQL Query` from the Comm
 
 ## PostgreSQL Query Results panel
 
-After you run a query, results appear in the **PostgreSQL Query Results** panel below the editor. The panel has up to three tabs depending on the query type.
+After you run a query, results appear in the **PostgreSQL Query Results** panel below the editor. Depending on the query, the panel shows a **Parameters** tab (when the SQL contains placeholders), a **Results** tab, a **Messages** tab, and a **Query Plan** tab. For placeholder-based queries, see [Run parameterized queries](parameterized-queries.md).
+
+# [Visual Studio Code](#tab/vscode)
+
+:::image type="content" source="media/query-editor-intellisense/default-results-grid-default.png" alt-text="Screenshot of postgreSQL Query Results panel with data grid." lightbox="media/query-editor-intellisense/default-results-grid-default.png":::
+
+# [Cursor](#tab/cursor)
+
+:::image type="content" source="media/query-editor-intellisense/cursor-editor-results-grid-default.png" alt-text="Screenshot of postgreSQL Query Results panel with data grid." lightbox="media/query-editor-intellisense/cursor-editor-results-grid-default.png":::
+
+---
 
 ### Results tab
 
@@ -121,6 +131,16 @@ The results grid provides these features for exploring data:
 - **Search**: Use the search field in the results toolbar to find values in the grid.
 
 Joined queries and wider result sets use the same grid experience, so you can sort, filter, and scan related columns without leaving the editor.
+
+# [Visual Studio Code](#tab/vscode)
+
+:::image type="content" source="media/query-editor-intellisense/default-results-grid-rich-join-data.png" alt-text="Screenshot of postgreSQL Query Results panel showing joined model and provider data in the results grid." lightbox="media/query-editor-intellisense/default-results-grid-rich-join-data.png":::
+
+# [Cursor](#tab/cursor)
+
+:::image type="content" source="media/query-editor-intellisense/cursor-editor-results-grid-rich-join-data.png" alt-text="Screenshot of postgreSQL Query Results panel showing joined model and provider data in the results grid." lightbox="media/query-editor-intellisense/cursor-editor-results-grid-rich-join-data.png":::
+
+---
 
 #### Copy data
 
@@ -230,6 +250,16 @@ The extension includes built-in PostgreSQL code snippets that help you scaffold 
 ## Query history
 
 The **Query History** view in the PostgreSQL Activity Bar panel automatically captures the queries you run, so you can revisit and reuse them later.
+
+# [Visual Studio Code](#tab/vscode)
+
+:::image type="content" source="media/query-editor-intellisense/default-query-history-query-history.png" alt-text="Screenshot of query History view showing previously executed queries." lightbox="media/query-editor-intellisense/default-query-history-query-history.png":::
+
+# [Cursor](#tab/cursor)
+
+:::image type="content" source="media/query-editor-intellisense/cursor-editor-query-history-query-history.png" alt-text="Screenshot of query History view showing previously executed queries." lightbox="media/query-editor-intellisense/cursor-editor-query-history-query-history.png":::
+
+---
 
 ### Manage query history
 

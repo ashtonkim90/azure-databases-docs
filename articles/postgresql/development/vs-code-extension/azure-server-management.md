@@ -5,7 +5,7 @@ description: "Manage supported Azure Database for PostgreSQL resources from Visu
 author: mmcfarland
 ms.author: mmcfarland
 ms.reviewer: nachoalonsoportillo, maghan
-ms.date: 06/08/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.subservice: extensions
 ms.topic: how-to
@@ -31,11 +31,11 @@ The PostgreSQL extension for Visual Studio Code lets you manage supported Azure 
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="azure-server-management/default-server-dashboard-default.png" alt-text="Screenshot of server dashboard showing Azure management entry points." lightbox="azure-server-management/default-server-dashboard-default.png":::
+:::image type="content" source="media/azure-server-management/default-server-dashboard-default.png" alt-text="Screenshot of server dashboard showing Azure management entry points." lightbox="media/azure-server-management/default-server-dashboard-default.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="azure-server-management/cursor-editor-server-dashboard-default.png" alt-text="Screenshot of server dashboard showing Azure management entry points." lightbox="azure-server-management/cursor-editor-server-dashboard-default.png":::
+:::image type="content" source="media/azure-server-management/cursor-editor-server-dashboard-default.png" alt-text="Screenshot of server dashboard showing Azure management entry points." lightbox="media/azure-server-management/cursor-editor-server-dashboard-default.png":::
 
 ---
 
@@ -195,6 +195,60 @@ Automatic backups stay managed by Azure and can't be deleted from the extension.
 
 You can also filter the backup list with **Automatic** or **On-demand**, narrow it with time filters such as **Last 24 hours** or **Last 7 days**, and sort the table by **Name**, **Status**, **Completion time**, **Retained until**, or **Type**.
 
+## Back up a database with pg_dump (Preview)
+
+The **Backup...** command runs a client-side [`pg_dump`](https://www.postgresql.org/docs/current/app-pgdump.html) backup of a single database and writes the result to the output folder you choose. Unlike Azure-managed backups, this workflow works for any PostgreSQL connection-local, Docker, or Azure.
+
+This feature is a preview that's turned off by default. To turn it on, set `pgsql.enablePgDumpRestoreUI` to `true` in your VS Code settings.
+
+> [!NOTE]  
+> The **Backup...** command requires the `pg_dump` client tool. If `pg_dump` isn't found, install the PostgreSQL client tools, or add the directory that contains the binary to `pgsql.pgBinaryDirs` (a list of absolute directory paths) and restart the editor.
+
+### Create a backup
+
+1. In the **Connections** tree, right-click a **database** node and select **Backup...**. For Azure servers (flexible server or HorizonDB), you can also right-click the server node and select **Server Management** > **Backup...**.
+1. In the **Backup Your Database** panel, choose the **Database** to back up.
+1. Set the **Output Folder** and **Filename** for the backup output.
+1. Choose a **Format**:
+
+   | Format | Description |
+   | --- | --- |
+   | **Custom (.backup)** | Binary format that supports compression and parallel restore. Recommended for most backups. |
+   | **Plain SQL (.sql)** | Human-readable SQL script. No compression. |
+   | **Directory** | One file per table. Supports parallel backup and restore. |
+   | **Tar (.tar)** | Archive of SQL files. No compression. |
+
+1. For the **Custom** or **Directory** format, set a **Compression** level. Level 6 is recommended.
+1. Under **Contents**, choose **Schema + data**, **Schema only**, or **Data only**.
+1. To review the generated command before you run it, see the **Command Preview**. Select **Copy command** to copy it.
+1. Select **Start Backup**.
+
+The panel streams `pg_dump` output as the backup runs. When it finishes, select **Open Backup** to open the output folder, or **Make Another Backup** to start again. If the backup fails, select **See full logs** for details, or **Debug with Copilot** for AI-assisted troubleshooting.
+
+# [Visual Studio Code](#tab/vscode)
+
+:::image type="content" source="media/azure-server-management/default-server-dashboard-pg-dump-backup.png" alt-text="Screenshot of backup Your Database panel showing the Database, Output Folder, Filename, Format, Compression, and Contents fields, the Command Preview, and the Start Backup button." lightbox="media/azure-server-management/default-server-dashboard-pg-dump-backup.png":::
+
+# [Cursor](#tab/cursor)
+
+:::image type="content" source="media/azure-server-management/cursor-editor-server-dashboard-pg-dump-backup.png" alt-text="Screenshot of backup Your Database panel showing the Database, Output Folder, Filename, Format, Compression, and Contents fields, the Command Preview, and the Start Backup button." lightbox="media/azure-server-management/cursor-editor-server-dashboard-pg-dump-backup.png":::
+
+---
+
+### Fine-tune the backup
+
+Select **Advanced Options** to open a drawer with additional settings:
+
+- **Scope**: limit the backup to specific **Schemas** or **Tables**.
+- **Contents**: include or exclude the **Pre-Data**, **Data**, and **Post-Data** sections, and choose whether to include large objects.
+- **Performance and logs**: set **Parallel Jobs** (Directory format only) and toggle **Verbose Logging**.
+- **Restore behavior**: choose whether to include ownership and privileges (GRANTs), and whether to disable triggers while data is loaded during a later restore.
+- **SQL Format Options**: for the **Plain SQL** format, add clean, create-database, or `INSERT`-based statements.
+- **Security**: toggle **Enable Row Security** to control row-level security handling in the dump.
+
+> [!NOTE]  
+> The **Backup...** command creates a backup only; it doesn't restore. To restore a backup, use your PostgreSQL client tools such as `pg_restore` or `psql`.
+
 ## Clone a server
 
 Use **Clone Server** when you want to create a new Azure Database for PostgreSQL flexible server based on the current server.
@@ -223,6 +277,18 @@ Open **Server Settings** > **Server Logs** to capture diagnostic logs and downlo
 1. Select **Download**.
 
 The log table supports sorting by **Name**, **Last modified**, **Size (KB)**, and **Type**. When more than 100 files match the current filters, the page shows pagination controls.
+
+## View activity
+
+Open **Server Settings** > **Activity Log** to review Azure control-plane activity for the server, including operational changes, health events, and user-initiated management actions such as start, stop, and configuration operations. This page is available for both Azure Database for PostgreSQL flexible server and Azure HorizonDB (Preview) connections.
+
+1. Open **Server Settings** > **Activity Log**.
+1. Use the **Timespan**, **Severity**, and **Status** filters to narrow the list, or search by operation, initiator, or status. Select **Reset filters** to clear them.
+1. Select an event to expand its details, such as the operation name, status, event time, and initiator.
+1. To keep a copy for analysis, select **Download as CSV**.
+
+> [!NOTE]  
+> Azure retains activity log records for the last 90 days. Start times earlier than 90 days aren't available.
 
 ## Related content
 
