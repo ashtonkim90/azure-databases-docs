@@ -2,7 +2,7 @@
 author: nachoalonsoportillo
 ms.author: ialonso
 ms.reviewer: maghan
-ms.date: 07/16/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.topic: include
 ms.custom:
@@ -22,7 +22,7 @@ ms.custom:
 | [btree_gin](https://www.postgresql.org/docs/current/btree-gin.html) provides support for indexing common datatypes in GIN. | 1.3 | |
 | [btree_gist](https://www.postgresql.org/docs/current/btree-gist.html) provides support for indexing common datatypes in GiST. | 1.7 | |
 | [citext](https://www.postgresql.org/docs/current/citext.html) is a data type for case-insensitive character strings. | 1.6 | |
-| [credcheck](https://github.com/HexaCluster/credcheck) provides few general credential checks, which are evaluated during user creation, password change, and user renaming. | 3.0.0 <sup>*</sup> | <sup>*</sup> Set the `shared_preload_libraries` parameter to enable the corresponding libraries. |
+| [credcheck](https://github.com/HexaCluster/credcheck) provides few general credential checks, which will be evaluated during the user creation, during the password change and user renaming. | 3.0.0 <sup>*</sup> | <sup>*</sup> Set the `shared_preload_libraries` parameter to enable the corresponding libraries. |
 | [cube](https://www.postgresql.org/docs/current/cube.html) is a data type for multidimensional cubes. | 1.5 | |
 | [dblink](https://www.postgresql.org/docs/current/dblink.html) to connect to other PostgreSQL databases from within a database. | 1.2 | Read the special considerations for extension [dblink](../concepts-extensions-considerations.md#dblink) in flexible server. |
 | [dict_int](https://www.postgresql.org/docs/current/dict-int.html) provides a text search dictionary template for integers. | 1.0 | |
@@ -63,7 +63,7 @@ ms.custom:
 | [pgstattuple](https://www.postgresql.org/docs/current/pgstattuple.html) shows tuple-level statistics. | 1.5 | Read the special considerations for extension [pgstattuple](../concepts-extensions-considerations.md#pgstattuple) in flexible server. |
 | [pg_trgm](https://www.postgresql.org/docs/current/pgtrgm.html) provides text similarity measurement and index searching based on trigrams. | 1.6 | |
 | [pg_visibility](https://www.postgresql.org/docs/current/pgvisibility.html) examines the visibility map and page-level visibility info. | 1.2 | |
-| [plpgsql](https://www.postgresql.org/docs/current/plpgsql.html) pL/pgSQL is a SQL procedural language. | 1.0 <sup>*</sup> | <sup>*</sup> Set the `shared_preload_libraries` parameter to enable the corresponding libraries. |
+| [plpgsql](https://www.postgresql.org/docs/current/plpgsql.html) pL/pgSQL is a SQL procedural language. | 1.0 <sup>*</sup> | |
 | [plpgsql_check](https://github.com/okbob/plpgsql_check) full linter for plpgsql for PostgreSQL | 2.8 <sup>*</sup> | <sup>*</sup> Set the `shared_preload_libraries` parameter to enable the corresponding libraries. |
 | [plv8](https://github.com/plv8/plv8) pL/JavaScript (v8) is a trusted procedural language. | 3.2.4 | |
 | [pointcloud](https://github.com/pgpointcloud/pointcloud) store point cloud (LIDAR) data. | 1.2.5 | |

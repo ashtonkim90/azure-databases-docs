@@ -2,7 +2,7 @@
 author: nachoalonsoportillo
 ms.author: ialonso
 ms.reviewer: maghan
-ms.date: 07/16/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.topic: include
 ms.custom:
@@ -63,7 +63,7 @@ ms.custom:
 | [pgstattuple](https://www.postgresql.org/docs/current/pgstattuple.html) shows tuple-level statistics. | 1.5 | Read the special considerations for extension [pgstattuple](../concepts-extensions-considerations.md#pgstattuple) in flexible server. |
 | [pg_trgm](https://www.postgresql.org/docs/current/pgtrgm.html) provides text similarity measurement and index searching based on trigrams. | 1.4 | |
 | [pg_visibility](https://www.postgresql.org/docs/current/pgvisibility.html) examines the visibility map and page-level visibility info. | 1.2 | |
-| [plpgsql](https://www.postgresql.org/docs/current/plpgsql.html) pL/pgSQL is a SQL procedural language. | 1.0 | <sup>*</sup> Set the `shared_preload_libraries` parameter to enable the corresponding libraries. |
+| [plpgsql](https://www.postgresql.org/docs/current/plpgsql.html) pL/pgSQL is a SQL procedural language. | 1.0 | |
 | [plpgsql_check](https://github.com/okbob/plpgsql_check) full linter for plpgsql for PostgreSQL | Not supported | |
 | [plv8](https://github.com/plv8/plv8) pL/JavaScript (v8) is a trusted procedural language. | 3.2.4 | |
 | [pointcloud](https://github.com/pgpointcloud/pointcloud) store point cloud (LIDAR) data. | Not supported | |
