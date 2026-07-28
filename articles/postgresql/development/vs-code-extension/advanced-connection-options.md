@@ -5,7 +5,7 @@ description: Use advanced PostgreSQL connection features such as connection stri
 author: mmcfarland
 ms.author: mmcfarland
 ms.reviewer: nachoalonsoportillo, maghan
-ms.date: 06/08/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.subservice: extensions
 ms.topic: how-to
@@ -25,11 +25,11 @@ Select the **Connection String** tab (under **Connect via:**) in the connection 
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="advanced-connection-options/default-connection-dialog-connection-string-tab.png" alt-text="Screenshot of connection String tab with textarea and parsed Connection Details panel." lightbox="advanced-connection-options/default-connection-dialog-connection-string-tab.png":::
+:::image type="content" source="media/advanced-connection-options/default-connection-dialog-connection-string-tab.png" alt-text="Screenshot of connection String tab with textarea and parsed Connection Details panel." lightbox="media/advanced-connection-options/default-connection-dialog-connection-string-tab.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="advanced-connection-options/cursor-editor-connection-dialog-connection-string-tab.png" alt-text="Screenshot of connection String tab with textarea and parsed Connection Details panel." lightbox="advanced-connection-options/cursor-editor-connection-dialog-connection-string-tab.png":::
+:::image type="content" source="media/advanced-connection-options/cursor-editor-connection-dialog-connection-string-tab.png" alt-text="Screenshot of connection String tab with textarea and parsed Connection Details panel." lightbox="media/advanced-connection-options/cursor-editor-connection-dialog-connection-string-tab.png":::
 
 ---
 
@@ -67,11 +67,11 @@ Use the certificate file settings in the **SSL** accordion section of the **Adva
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="advanced-connection-options/default-connection-dialog-ssl-certificate-fields.png" alt-text="Screenshot of SSL section showing root certificate mode dropdown and certificate fields." lightbox="advanced-connection-options/default-connection-dialog-ssl-certificate-fields.png":::
+:::image type="content" source="media/advanced-connection-options/default-connection-dialog-ssl-certificate-fields.png" alt-text="Screenshot of SSL section showing root certificate mode dropdown and certificate fields." lightbox="media/advanced-connection-options/default-connection-dialog-ssl-certificate-fields.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="advanced-connection-options/cursor-editor-connection-dialog-ssl-certificate-fields.png" alt-text="Screenshot of SSL section showing root certificate mode dropdown and certificate fields." lightbox="advanced-connection-options/cursor-editor-connection-dialog-ssl-certificate-fields.png":::
+:::image type="content" source="media/advanced-connection-options/cursor-editor-connection-dialog-ssl-certificate-fields.png" alt-text="Screenshot of SSL section showing root certificate mode dropdown and certificate fields." lightbox="media/advanced-connection-options/cursor-editor-connection-dialog-ssl-certificate-fields.png":::
 
 ---
 
@@ -103,17 +103,54 @@ Configure mutual TLS by providing paths in these fields within the **SSL** secti
 > [!TIP]  
 > For **Verify-CA** and **Verify-Full** modes, always configure the root certificate so the extension can validate the server certificate. Use **System** mode to rely on your operating system's trusted CA store without specifying a file path.
 
+### Advanced SSL parameters
+
+Some managed PostgreSQL services enforce TLS but reject the extension's default negotiation. Configure these parameters in the **SSL** section of the **Advanced Connection Settings** drawer to connect. Each parameter defaults to **Default**, which leaves the parameter unset and preserves the previous behavior.
+
+| Field label | Property | Values | Use it when |
+| --- | --- | --- | --- |
+| **SSL certificate mode** | `sslcertmode` | Default, Disable, Allow, Require | The server requires SSL but rejects a client certificate. Set to **Disable** to stop sending one. |
+| **Channel binding** | `channel_binding` | Default, Disable, Prefer, Require | The server requires SCRAM channel binding to be off. Set to **Disable**. |
+| **SSL negotiation** | `sslnegotiation` | Default, Postgres, Direct | You need to control how the TLS handshake is negotiated. |
+| **SSL SNI** | `sslsni` | Default, On, Off | The endpoint is sensitive to the TLS Server Name Indication extension. |
+| **Minimum TLS protocol version** | `ssl_min_protocol_version` | Default, TLS v1 through TLS v1.3 | You must pin a minimum TLS version. |
+| **Maximum TLS protocol version** | `ssl_max_protocol_version` | Default, TLS v1 through TLS v1.3 | You must pin a maximum TLS version. |
+
+> [!WARNING]  
+> These settings are compatibility overrides - keep them at **Default** unless a specific server requires otherwise. Disabling channel binding or SSL SNI, or allowing older TLS versions (TLS v1 or TLS v1.1), lowers the security of the connection compared with the defaults.
+
+> [!NOTE]  
+> The connection backend bundled with the extension surfaces these settings. If you don't see them in the **SSL** section, update to a PostgreSQL extension version whose bundled backend advertises them.
+
+#### Connect to AWS Aurora RDS for PostgreSQL
+
+For an Aurora RDS (or RDS) instance that requires encryption but rejects client-certificate negotiation:
+
+1. Set **SSL mode** to **Require**.
+1. Set **SSL certificate mode** to **Disable**.
+
+This configuration mirrors the libpq settings `sslmode=require` and `sslcertmode=disable` (the `PGSSLMODE` and `PGSSLCERTMODE` environment variables).
+
+#### Connect to Azure Database for PostgreSQL Flexible Server
+
+If authentication fails until channel binding is disabled, set **Channel binding** to **Disable**.
+
+This configuration mirrors `channel_binding=disable` (the `PGCHANNELBINDING` environment variable).
+
+> [!NOTE]  
+> Leave any parameter at **Default** to omit it. The extension sends only the parameters you change, so existing connections are unaffected.
+
 ## Connect through an SSH tunnel
 
 SSH tunneling routes the PostgreSQL connection through an encrypted SSH channel. Use this approach when the database isn't directly reachable from your workstation. For example, when the server resides in a private network behind a bastion host.
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="advanced-connection-options/default-connection-dialog-ssh-tunnel-fields.png" alt-text="Screenshot of SSH Tunnel section with Enable SSH Tunneling toggled on." lightbox="advanced-connection-options/default-connection-dialog-ssh-tunnel-fields.png":::
+:::image type="content" source="media/advanced-connection-options/default-connection-dialog-ssh-tunnel-fields.png" alt-text="Screenshot of SSH Tunnel section with Enable SSH Tunneling toggled on." lightbox="media/advanced-connection-options/default-connection-dialog-ssh-tunnel-fields.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="advanced-connection-options/cursor-editor-connection-dialog-ssh-tunnel-fields.png" alt-text="Screenshot of SSH Tunnel section with Enable SSH Tunneling toggled on." lightbox="advanced-connection-options/cursor-editor-connection-dialog-ssh-tunnel-fields.png":::
+:::image type="content" source="media/advanced-connection-options/cursor-editor-connection-dialog-ssh-tunnel-fields.png" alt-text="Screenshot of SSH Tunnel section with Enable SSH Tunneling toggled on." lightbox="media/advanced-connection-options/cursor-editor-connection-dialog-ssh-tunnel-fields.png":::
 
 ---
 
@@ -155,6 +192,8 @@ When the SSH tunnel is enabled, the extension establishes the SSH connection fir
 | You have an existing PostgreSQL URI, app snippet, or `psql` command | Select the **Connection String** tab to populate the fields automatically. |
 | Your organization requires custom CA files or mutual TLS | Configure the SSL certificate fields in the **SSL** section of the advanced drawer. |
 | You need to use your OS certificate store for server verification | Set **SSL root certificate mode** to **System** and **SSL mode** to **Verify-Full**. |
+| A managed server (for example, AWS Aurora RDS) requires SSL but rejects the client certificate | Set **SSL mode** to **Require** and **SSL certificate mode** to **Disable** in the **SSL** section. |
+| Azure Database for PostgreSQL Flexible Server rejects authentication until channel binding is off | Set **Channel binding** to **Disable** in the **SSL** section. |
 | The database is reachable only through a jump box or bastion host | Enable the SSH tunnel in the **SSH Tunnel** section of the advanced drawer. |
 
 ## Related content

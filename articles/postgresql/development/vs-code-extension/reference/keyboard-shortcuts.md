@@ -4,13 +4,15 @@ description: Keyboard shortcuts for the PostgreSQL extension for Visual Studio C
 author: mmcfarland
 ms.author: mmcfarland
 ms.reviewer: nachoalonsoportillo, maghan
-ms.date: 06/08/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.subservice: extensions
 ms.topic: reference
 ---
 
 # Keyboard shortcuts reference
+
+Use these shortcuts to run PostgreSQL commands and navigate query results without leaving the editor.
 
 ## Extension keybindings
 

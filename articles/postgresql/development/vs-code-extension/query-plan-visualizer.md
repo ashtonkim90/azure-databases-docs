@@ -5,13 +5,12 @@ description: Generate, import, and inspect PostgreSQL EXPLAIN plans in Tree, Tab
 author: mmcfarland
 ms.author: mmcfarland
 ms.reviewer: nachoalonsoportillo, maghan
-ms.date: 06/08/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.subservice: extensions
 ms.topic: how-to
 # customer intent: As a user, I want to generate and inspect PostgreSQL EXPLAIN plans visually, so that I can understand query behavior and performance without leaving my editor.
 ---
-
 
 # Query plan visualizer
 
@@ -19,7 +18,7 @@ Use the query plan visualizer in the PostgreSQL extension to inspect PostgreSQL 
 
 ## Prerequisites
 
-- [PostgreSQL extension](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql) installed.
+- The PostgreSQL extension installed from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql) in Visual Studio Code or the [Open VSX Registry](https://open-vsx.org/extension/microsoft/cursor-pgsql) in Cursor.
 - An active connection to a PostgreSQL server if you want to generate a live plan from the query editor or the PostgreSQL Query Results panel.
 - Optional AI assistant if you want AI-assisted analysis: install [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) in Visual Studio Code, or use the built-in AI in Cursor.
 - Optional `EXPLAIN` output already open in the editor if you want to import a saved plan without connecting to a database.
@@ -28,7 +27,7 @@ Use the query plan visualizer in the PostgreSQL extension to inspect PostgreSQL 
 
 Use the entry point that matches your workflow:
 
-- **Query editor**: Select **Visualize Query Plan (PostgreSQL)** in the editor toolbar. If you do not select text first, the extension uses the current editor contents.
+- **Query editor**: Select **Visualize Query Plan (PostgreSQL)** in the editor toolbar. If you don't select text first, the extension uses the current editor contents.
 - **PostgreSQL Query Results panel**: Run a query, then select **Visualize Query Plan** in the PostgreSQL Query Results panel toolbar to inspect the query that produced that result set.
 - **Imported plan**: Open any editor tab that contains PostgreSQL plan output, then run **PGSQL: Visualize Query Plan from Editor** from the **Command Palette**.
 
@@ -43,11 +42,11 @@ Use the entry point that matches your workflow:
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="query-plan-visualizer/default-query-plan-default.png" alt-text="Screenshot of query plan tree view in Visual Studio Code." lightbox="query-plan-visualizer/default-query-plan-default.png":::
+:::image type="content" source="media/query-plan-visualizer/default-query-plan-default.png" alt-text="Screenshot of query plan tree view in Visual Studio Code." lightbox="media/query-plan-visualizer/default-query-plan-default.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="query-plan-visualizer/cursor-editor-query-plan-default.png" alt-text="Screenshot of query plan tree view in Cursor." lightbox="query-plan-visualizer/cursor-editor-query-plan-default.png":::
+:::image type="content" source="media/query-plan-visualizer/cursor-editor-query-plan-default.png" alt-text="Screenshot of query plan tree view in Cursor." lightbox="media/query-plan-visualizer/cursor-editor-query-plan-default.png":::
 
 ---
 
@@ -56,7 +55,7 @@ Use the entry point that matches your workflow:
 The **Configure Query Plan** picker lets you choose the output format and the `EXPLAIN` options to run.
 
 | Option | What it changes |
-|---|---|
+| --- | --- |
 | **JSON** | Returns structured plan output that works best across the visual views. |
 | **TEXT** | Returns PostgreSQL's plain-text `EXPLAIN` output and preserves that source in **Source View**. |
 | **ANALYZE** | Executes the query and includes actual run-time statistics. |
@@ -66,8 +65,9 @@ The **Configure Query Plan** picker lets you choose the output format and the `E
 | **VERBOSE** | Adds extra output details such as schema and column information. |
 | **COSTS** | Includes estimated startup and total cost values. |
 | **SETTINGS** | Includes planner settings that differ from defaults. |
+| **SERIALIZE** | Includes serialization statistics for the query output. Selecting it automatically enables **ANALYZE**. Available on PostgreSQL 17 and later. |
 
-> [!CAUTION]
+> [!CAUTION]  
 > `EXPLAIN ANALYZE` runs the query. If the statement modifies data, such as `INSERT`, `UPDATE`, `DELETE`, or `TRUNCATE`, the extension shows a confirmation prompt before it continues.
 
 ## Open a saved plan from the editor
@@ -77,7 +77,7 @@ The **Configure Query Plan** picker lets you choose the output format and the `E
 1. Run **PGSQL: Visualize Query Plan from Editor**.
 1. Review the imported plan in the visualizer.
 
-This workflow does not require an active database connection. The command reads the current editor contents, so you can use it with copied plan output, saved `.json` or `.txt` files, or plan text pasted into a scratch editor.
+This workflow doesn't require an active database connection. The command reads the current editor contents, so you can use it with copied plan output, saved `.json` or `.txt` files, or plan text pasted into a scratch editor.
 
 ## Switch between views
 
@@ -103,11 +103,11 @@ Use **Table View** when you want to sort, search, and compare many nodes at once
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="query-plan-visualizer/default-query-plan-table-view.png" alt-text="Screenshot of query plan table view with tabular node data." lightbox="query-plan-visualizer/default-query-plan-table-view.png":::
+:::image type="content" source="media/query-plan-visualizer/default-query-plan-table-view.png" alt-text="Screenshot of query plan table view with tabular node data." lightbox="media/query-plan-visualizer/default-query-plan-table-view.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="query-plan-visualizer/cursor-editor-query-plan-table-view.png" alt-text="Screenshot of query plan table view with tabular node data." lightbox="query-plan-visualizer/cursor-editor-query-plan-table-view.png":::
+:::image type="content" source="media/query-plan-visualizer/cursor-editor-query-plan-table-view.png" alt-text="Screenshot of query plan table view with tabular node data." lightbox="media/query-plan-visualizer/cursor-editor-query-plan-table-view.png":::
 
 ---
 
@@ -121,11 +121,11 @@ Use **Icicle View** when you want a full-width visual summary of where cost, tim
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="query-plan-visualizer/default-query-plan-icicle-view.png" alt-text="Screenshot of icicle view comparing cost, time, and buffer usage concentration." lightbox="query-plan-visualizer/default-query-plan-icicle-view.png":::
+:::image type="content" source="media/query-plan-visualizer/default-query-plan-icicle-view.png" alt-text="Screenshot of icicle view comparing cost, time, and buffer usage concentration." lightbox="media/query-plan-visualizer/default-query-plan-icicle-view.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="query-plan-visualizer/cursor-editor-query-plan-icicle-view.png" alt-text="Screenshot of icicle view comparing cost, time, and buffer usage concentration." lightbox="query-plan-visualizer/cursor-editor-query-plan-icicle-view.png":::
+:::image type="content" source="media/query-plan-visualizer/cursor-editor-query-plan-icicle-view.png" alt-text="Screenshot of icicle view comparing cost, time, and buffer usage concentration." lightbox="media/query-plan-visualizer/cursor-editor-query-plan-icicle-view.png":::
 
 ---
 
@@ -140,35 +140,41 @@ Use **Source View** when you want the original plan output.
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="query-plan-visualizer/default-query-plan-source-view.png" alt-text="Screenshot of source view showing original plan output." lightbox="query-plan-visualizer/default-query-plan-source-view.png":::
+:::image type="content" source="media/query-plan-visualizer/default-query-plan-source-view.png" alt-text="Screenshot of source view showing original plan output." lightbox="media/query-plan-visualizer/default-query-plan-source-view.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="query-plan-visualizer/cursor-editor-query-plan-source-view.png" alt-text="Screenshot of source view showing original plan output." lightbox="query-plan-visualizer/cursor-editor-query-plan-source-view.png":::
+:::image type="content" source="media/query-plan-visualizer/cursor-editor-query-plan-source-view.png" alt-text="Screenshot of source view showing original plan output." lightbox="media/query-plan-visualizer/cursor-editor-query-plan-source-view.png":::
 
 ---
 
 Select **Copy Plan** at any time to copy the current plan source to the clipboard. JSON plans are copied in formatted form, and TEXT plans are copied as their original source.
+
+When a plan includes serialization statistics - from **EXPLAIN (ANALYZE, SERIALIZE)** on PostgreSQL 17 and later - a **Serialization** button appears in the toolbar. Select it to review the time, output volume, format, and buffer usage spent serializing the query output.
 
 ## Inspect plan nodes
 
 Select a node in **Tree View**, **Table View**, or **Icicle View** to open the details panel.
 
 - **General** shows the node type, key metrics, and plan-specific analysis details.
-- **I/O** appears when the plan includes buffer data.
+- **I/O** appears when the plan includes buffer data. For parallel plans, it breaks buffer usage into **Node total (includes workers)**, **Leader**, and one row per worker. If the plan lacks per-worker buffer data, the tab prompts you to run `EXPLAIN (ANALYZE, VERBOSE, BUFFERS)`.
+- **Workers** appears for parallel nodes that report per-worker data. It shows each worker's **Actual Startup**, **Actual Total**, **Actual Rows**, and **Actual Loops**.
 - **Conditions** appears when the node exposes filters, join conditions, or similar predicates.
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="query-plan-visualizer/default-query-plan-node-details.png" alt-text="Screenshot of plan node details panel with metrics, I/O, and predicate tabs." lightbox="query-plan-visualizer/default-query-plan-node-details.png":::
+:::image type="content" source="media/query-plan-visualizer/default-query-plan-node-details.png" alt-text="Screenshot of plan node details panel with metrics, I/O, and predicate tabs." lightbox="media/query-plan-visualizer/default-query-plan-node-details.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="query-plan-visualizer/cursor-editor-query-plan-node-details.png" alt-text="Screenshot of plan node details panel with metrics, I/O, and predicate tabs." lightbox="query-plan-visualizer/cursor-editor-query-plan-node-details.png":::
+:::image type="content" source="media/query-plan-visualizer/cursor-editor-query-plan-node-details.png" alt-text="Screenshot of plan node details panel with metrics, I/O, and predicate tabs." lightbox="media/query-plan-visualizer/cursor-editor-query-plan-node-details.png":::
 
 ---
 
 Use this panel to compare estimated versus actual work, inspect buffer-heavy nodes, and confirm which predicates are driving the plan.
+
+> [!NOTE]  
+> A **Disabled** badge marks a node whose type an `enable_*` planner setting turns off, but PostgreSQL uses the node anyway because it's still the least-cost valid plan. This badge requires PostgreSQL 17 or later.
 
 ## Analyze plans with the AI assistant
 
@@ -181,7 +187,7 @@ Use the AI assistant when you want the extension to open an analysis chat with t
 1. Choose whether to include your SQL query text with the analysis.
 1. Review the new chat session that opens in Agent mode.
 
-If the plan came from **PGSQL: Visualize Query Plan from Editor** and there is no useful SQL text yet, the extension can prompt you to enter the query first so the AI has better context.
+If the plan came from **PGSQL: Visualize Query Plan from Editor** and there's no useful SQL text yet, the extension can prompt you to enter the query first so the AI has better context.
 
 ### Analyze one node
 
@@ -204,7 +210,7 @@ When you choose to include or exclude SQL from the prompt, the extension can als
 The visualizer caches the current plan and exposes it to the AI assistant through the `pgsql_query_plan` tool, or the MCP equivalent on supported hosts. That tool supports these actions:
 
 | Action | Use it for |
-|---|---|
+| --- | --- |
 | `get_summary` | Get a plan-wide summary before drilling into details. |
 | `get_node` | Inspect one node by ID. |
 | `get_subtree` | Inspect a node together with its descendants. |
@@ -214,7 +220,7 @@ If you want the AI to start from the active query instead of the visualizer, use
 
 ## Tips for performance analysis
 
-- Use **ANALYZE** when it is safe to run the statement. Estimates alone can hide bad row-count assumptions.
+- Use **ANALYZE** when it's safe to run the statement. Estimates alone can hide bad row-count assumptions.
 - Compare estimated and actual row counts to spot stale statistics or filter selectivity problems.
 - Switch to **Table View** when the plan is large and you need search or side-by-side metric comparisons.
 - Switch to **Source View** when you need the raw plan for an issue, code review, or discussion with teammates.

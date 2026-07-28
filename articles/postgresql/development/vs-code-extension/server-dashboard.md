@@ -5,7 +5,7 @@ description: Monitor PostgreSQL server metrics, view server details, and access 
 author: mmcfarland
 ms.author: mmcfarland
 ms.reviewer: nachoalonsoportillo, maghan
-ms.date: 06/08/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.subservice: extensions
 ms.topic: how-to
@@ -31,11 +31,11 @@ The dashboard opens in a tab named **\<profileName\> - Dashboard** and shows the
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="server-dashboard/default-server-dashboard-default.png" alt-text="Screenshot of server dashboard with details card and metrics charts." lightbox="server-dashboard/default-server-dashboard-default.png":::
+:::image type="content" source="media/server-dashboard/default-server-dashboard-default.png" alt-text="Screenshot of server dashboard with details card and metrics charts." lightbox="media/server-dashboard/default-server-dashboard-default.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="server-dashboard/cursor-editor-server-dashboard-default.png" alt-text="Screenshot of server dashboard with details card and metrics charts." lightbox="server-dashboard/cursor-editor-server-dashboard-default.png":::
+:::image type="content" source="media/server-dashboard/cursor-editor-server-dashboard-default.png" alt-text="Screenshot of server dashboard with details card and metrics charts." lightbox="media/server-dashboard/cursor-editor-server-dashboard-default.png":::
 
 ---
 
@@ -64,7 +64,7 @@ The toolbar across the top of the dashboard provides quick access to common oper
 | Button | Description |
 | --- | --- |
 | **Connect** | Appears when the server is disconnected. Select it to reestablish the connection. While connecting, the button changes to **Connecting...**. |
-| **Actions** > **Disconnect** | Disconnect from the server. Available from the **Actions** dropdown list menu when you're connected. |
+| **Actions** > **Disconnect** | Disconnect from the server. Available from the **Actions** dropdown menu when you're connected. |
 
 When the server is disconnected, database-related buttons in the toolbar are disabled and show the tooltip: "A database connection is required. Connect to the database to enable this feature."
 
@@ -78,7 +78,7 @@ When the server is disconnected, database-related buttons in the toolbar are dis
 
 ### Azure server actions
 
-For Azure Database for PostgreSQL flexible server connections, the **Actions** dropdown list menu includes server lifecycle operations and the toolbar shows an additional portal button.
+For Azure Database for PostgreSQL flexible server connections, the **Actions** dropdown menu includes server lifecycle operations and the toolbar shows an additional portal button.
 
 | Button | Description |
 | --- | --- |
@@ -100,6 +100,7 @@ For supported Azure connections, a **Server Settings** dropdown list button appe
 | **Server Parameters** | Browse and update PostgreSQL parameters (both static and dynamic). |
 | **Backups** | View backup history and configure backup retention policies. |
 | **Server Logs** | Access and download PostgreSQL server logs for troubleshooting. |
+| **Activity Log** | Review Azure control-plane activity for the server-operational changes, health events, and user-initiated management actions. Filter by timespan, severity, and status, or download the log as CSV. |
 | **Clone Server** | Clone the Azure server from a backup point. |
 
 Azure Database for PostgreSQL flexible server connections can show the full menu. Azure HorizonDB (Preview) connections can show **Network Configuration** when the connection has complete Azure resource and pool identity. Parameters, backups, server logs, clone, and lifecycle actions aren't available for Azure HorizonDB (Preview) connections.
@@ -190,11 +191,11 @@ Query statistics require the `pg_stat_statements` extension to be enabled on the
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="server-dashboard/default-server-dashboard-queries-tab.png" alt-text="Screenshot of queries investigation tab with top SQL table and query performance statistics." lightbox="server-dashboard/default-server-dashboard-queries-tab.png":::
+:::image type="content" source="media/server-dashboard/default-server-dashboard-queries-tab.png" alt-text="Screenshot of queries investigation tab with top SQL table and query performance statistics." lightbox="media/server-dashboard/default-server-dashboard-queries-tab.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="server-dashboard/cursor-editor-server-dashboard-queries-tab.png" alt-text="Screenshot of queries investigation tab with top SQL table and query performance statistics." lightbox="server-dashboard/cursor-editor-server-dashboard-queries-tab.png":::
+:::image type="content" source="media/server-dashboard/cursor-editor-server-dashboard-queries-tab.png" alt-text="Screenshot of queries investigation tab with top SQL table and query performance statistics." lightbox="media/server-dashboard/cursor-editor-server-dashboard-queries-tab.png":::
 
 ---
 
@@ -234,11 +235,11 @@ The **Waits** tab helps you understand where the server spends time waiting. It 
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="server-dashboard/default-server-dashboard-waits-tab.png" alt-text="Screenshot of waits investigation tab with ranked wait events and over-time chart." lightbox="server-dashboard/default-server-dashboard-waits-tab.png":::
+:::image type="content" source="media/server-dashboard/default-server-dashboard-waits-tab.png" alt-text="Screenshot of waits investigation tab with ranked wait events and over-time chart." lightbox="media/server-dashboard/default-server-dashboard-waits-tab.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="server-dashboard/cursor-editor-server-dashboard-waits-tab.png" alt-text="Screenshot of waits investigation tab with ranked wait events and over-time chart." lightbox="server-dashboard/cursor-editor-server-dashboard-waits-tab.png":::
+:::image type="content" source="media/server-dashboard/cursor-editor-server-dashboard-waits-tab.png" alt-text="Screenshot of waits investigation tab with ranked wait events and over-time chart." lightbox="media/server-dashboard/cursor-editor-server-dashboard-waits-tab.png":::
 
 ---
 
@@ -252,11 +253,11 @@ The **Sessions** tab shows active database sessions and helps you identify block
 
 # [Visual Studio Code](#tab/vscode)
 
-:::image type="content" source="server-dashboard/default-server-dashboard-sessions-tab.png" alt-text="Screenshot of sessions investigation tab with active sessions table and summary cards." lightbox="server-dashboard/default-server-dashboard-sessions-tab.png":::
+:::image type="content" source="media/server-dashboard/default-server-dashboard-sessions-tab.png" alt-text="Screenshot of sessions investigation tab with active sessions table and summary cards." lightbox="media/server-dashboard/default-server-dashboard-sessions-tab.png":::
 
 # [Cursor](#tab/cursor)
 
-:::image type="content" source="server-dashboard/cursor-editor-server-dashboard-sessions-tab.png" alt-text="Screenshot of sessions investigation tab with active sessions table and summary cards." lightbox="server-dashboard/cursor-editor-server-dashboard-sessions-tab.png":::
+:::image type="content" source="media/server-dashboard/cursor-editor-server-dashboard-sessions-tab.png" alt-text="Screenshot of sessions investigation tab with active sessions table and summary cards." lightbox="media/server-dashboard/cursor-editor-server-dashboard-sessions-tab.png":::
 
 ---
 

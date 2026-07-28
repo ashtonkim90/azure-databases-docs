@@ -5,16 +5,16 @@ description: Overview of the PostgreSQL extension for Visual Studio Code, provid
 author: mmcfarland
 ms.author: mmcfarland
 ms.reviewer: nachoalonsoportillo, maghan
-ms.date: 06/08/2026
+ms.date: 07/22/2026
 ms.service: azure-database-postgresql
 ms.subservice: extensions
 ms.topic: overview
 # customer intent: As a user, I want an overview of the PostgreSQL extension for Visual Studio Code, so that I can understand its database development, visualization, management, and AI capabilities.
 ---
 
-# PostgreSQL extension for Visual Studio Code
+# PostgreSQL extension for Visual Studio Code and Cursor
 
-The PostgreSQL extension for Visual Studio Code (`ms-ossdata.vscode-pgsql`) brings database development tools directly into your editor. You can connect to local, on-premises, or cloud-provided PostgreSQL servers, write queries with IntelliSense, explore database objects, visualize query plans and schemas, and manage Azure Database for PostgreSQL flexible server resources, all without leaving VS Code. The extension also integrates with AI assistants for AI-assisted query authoring, analysis, and agent-driven workflows.
+The PostgreSQL extension for Visual Studio Code (`ms-ossdata.vscode-pgsql`) brings database development tools directly into your editor. You can connect to local, on-premises, or cloud-provided PostgreSQL servers, write queries with IntelliSense, explore database objects, visualize query plans and schemas, and manage Azure Database for PostgreSQL flexible server resources, all without leaving your editor. The extension also integrates with AI assistants for AI-assisted query authoring, analysis, and agent-driven workflows.
 
 > [!NOTE]  
 > The extension also runs in **Cursor**. PostgreSQL AI features are supported in both editors and follow each editor's native AI experience: Visual Studio Code includes the **@pgsql** chat participant alongside Agent mode and MCP server registration, while Cursor uses **Connect AI** (Agent mode) or MCP server registration.
@@ -31,10 +31,17 @@ If you're new to the extension, start with one of these guides:
 
 ## Install the extension
 
-1. Open Visual Studio Code.
+| Editor | Extension marketplace |
+| --- | --- |
+| Visual Studio Code | [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql) |
+| Cursor | [Open VSX Registry](https://open-vsx.org/extension/microsoft/cursor-pgsql) |
+
+1. Open Visual Studio Code or Cursor.
 1. Open the **Extensions** view (`Ctrl+Shift+X`, or `Cmd+Shift+X` on macOS).
 1. Search for **postgresql**.
 1. Select **PostgreSQL** by Microsoft and then select **Install**.
+
+In Cursor, install the extension from the [Open VSX Registry](https://open-vsx.org/extension/microsoft/cursor-pgsql).
 
 > [!TIP]  
 > After installation, a PostgreSQL icon appears in the **Activity Bar**. Select it to open the **PostgreSQL view**, where you manage connections and explore database objects.
