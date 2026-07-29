@@ -2,8 +2,8 @@
 title: Extensions and modules in Azure Database for PostgreSQL Flexible Server
 description: Learn about extensions and modules in Azure Database for PostgreSQL flexible server.
 #customer intent: As a user, I want to learn what are extensions and modules in an Azure Database for PostgreSQL flexible server.
-author: varun-dhawan
-ms.author: varundhawan
+author: akashraokm
+ms.author: akashrao
 ms.reviewer: maghan
 ms.date: 07/10/2026
 ms.service: azure-database-postgresql
