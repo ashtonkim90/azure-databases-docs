@@ -5,7 +5,7 @@ description: This article describes how to list parameter groups in Azure Horizo
 author: nachoalonsoportillo
 ms.author: ialonso
 ms.reviewer: maghan
-ms.date: 07/07/2026
+ms.date: 07/14/2026
 ms.service: azure-horizondb
 ms.subservice: parameters-group
 ms.topic: how-to
@@ -30,167 +30,26 @@ Use the [Azure portal](https://portal.azure.com):
 
 ### [CLI](#tab/cli-list-parameter-groups)
 
-[!INCLUDE [no-native-cli-support](../includes/no-native-cli-support.md)]
-
-To list a specific parameter group, use the `az rest` command:
+Use the [az horizondb parameter-group list](/cli/azure/horizondb/parameter-group?view=azure-cli-latest#az-horizondb-parameter-group-list) command to list the parameter groups in current subscription:
 
 ```azurecli-interactive
-az rest --method GET \
-  --uri "https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDB/parameterGroups/{parameterGroupName}?api-version=2026-01-20-preview"
+az horizondb parameter-group list
 ```
 
-The output from this command looks like the following example:
-
-```json
-{
-    "properties": {
-        "parameters": [
-            {
-                "name": "{parameterName-1}",
-                "description": "{parameterDescription-1}",
-                "value": "{parameterValue-1}",
-                "dataType": "{parameterDataType-1}",
-                "allowedValues": "{parameterAllowedValues-1}",
-                "documentationLink": "{parameterDocumentationLink-1}",
-                "unit": "{parameterUnit-1}",
-                "isDynamic": {parameterIsDynamic-1},
-                "isReadOnly": {parameterIsReadOnly-1}
-            },
-      .
-      .
-      .
-            {
-                "name": "{parameterName-N}",
-                "description": "{parameterDescription-N}",
-                "value": "{parameterValue-N}",
-                "dataType": "{parameterDataType-N}",
-                "allowedValues": "{parameterAllowedValues-N}",
-                "documentationLink": "{parameterDocumentationLink-N}",
-                "unit": "{parameterUnit-N}",
-                "isDynamic": {parameterIsDynamic-N},
-                "isReadOnly": {parameterIsReadOnly-N}
-            }
-        ],
-        "pgVersion": {postgresVersion},
-        "version": {parameterGroupVersion},
-        "provisioningState": "Succeeded",
-        "createTime": "2026-04-26T17:17:37.1068799"
-    },
-    "location": "{location}",
-    "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDB/parameterGroups/{parameterGroupName}",
-    "name": "{parameterGroupName}",
-    "type": "Microsoft.HorizonDB/parameterGroups"
-}
-```
-
-To list all parameter groups in a resource group, use the `az rest` command:
+Use the [az horizondb parameter-group list](/cli/azure/horizondb/parameter-group?view=azure-cli-latest#az-horizondb-parameter-group-list) command with the `--resource-group` parameter to list the parameter groups in a resource group of currrent subscription:
 
 ```azurecli-interactive
-az rest --method GET \
-  --uri "https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OrionDb/parameterGroups?api-version=2026-01-20-preview"
+az horizondb parameter-group list \
+  --resource-group <resource_group>
 ```
 
-To list all parameter groups in any resource group within a subscription, use the `az rest` command:
+Use the [az horizondb parameter-group show](/cli/azure/horizondb/parameter-group?view=azure-cli-latest#az-horizondb-parameter-group-show) command to show a specific parameter group:
 
 ```azurecli-interactive
-az rest --method GET \
-  --uri "https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.OrionDb/parameterGroups?api-version=2026-01-20-preview"
+az horizondb parameter-group list \
+  --resource-group <resource_group>
+  --name <parameter_group>
 ```
-
-The output from either of these two commands looks like the following example:
-
-```json
-{
-    "value": [
-        {
-            "properties": {
-                "parameters": [
-                    {
-                        "name": "{parameterName-1}",
-                        "description": "{parameterDescription-1}",
-                        "value": "{parameterValue-1}",
-                        "dataType": "{parameterDataType-1}",
-                        "allowedValues": "{parameterAllowedValues-1}",
-                        "documentationLink": "{parameterDocumentationLink-1}",
-                        "unit": "{parameterUnit-1}",
-                        "isDynamic": {parameterIsDynamic-1},
-                        "isReadOnly": {parameterIsReadOnly-1}
-                    },
-              .
-              .
-              .
-                    {
-                        "name": "{parameterName-N}",
-                        "description": "{parameterDescription-N}",
-                        "value": "{parameterValue-N}",
-                        "dataType": "{parameterDataType-N}",
-                        "allowedValues": "{parameterAllowedValues-N}",
-                        "documentationLink": "{parameterDocumentationLink-N}",
-                        "unit": "{parameterUnit-N}",
-                        "isDynamic": {parameterIsDynamic-N},
-                        "isReadOnly": {parameterIsReadOnly-N}
-                    }
-                ],
-                "pgVersion": {postgresVersion-1},
-                "version": {parameterGroupVersion-1},
-                "provisioningState": "Succeeded",
-                "createTime": "2026-03-22T16:18:20.0000000"
-            },
-            "location": "{location-1}",
-            "id": "/subscriptions/{subscriptionId-1}/resourceGroups/{resourceGroupName-1}/providers/Microsoft.HorizonDB/parameterGroups/{parameterGroupName-1}",
-            "name": "{parameterGroupName-1}",
-            "type": "Microsoft.HorizonDB/parameterGroups"
-        },
-        .
-        .
-        .
-        {
-            "properties": {
-                "parameters": [
-                    {
-                        "name": "{parameterName-1}",
-                        "description": "{parameterDescription-1}",
-                        "value": "{parameterValue-1}",
-                        "dataType": "{parameterDataType-1}",
-                        "allowedValues": "{parameterAllowedValues-1}",
-                        "documentationLink": "{parameterDocumentationLink-1}",
-                        "unit": "{parameterUnit-1}",
-                        "isDynamic": {parameterIsDynamic-1},
-                        "isReadOnly": {parameterIsReadOnly-1}
-                    },
-              .
-              .
-              .
-                    {
-                        "name": "{parameterName-N}",
-                        "description": "{parameterDescription-N}",
-                        "value": "{parameterValue-N}",
-                        "dataType": "{parameterDataType-N}",
-                        "allowedValues": "{parameterAllowedValues-N}",
-                        "documentationLink": "{parameterDocumentationLink-N}",
-                        "unit": "{parameterUnit-N}",
-                        "isDynamic": {parameterIsDynamic-N},
-                        "isReadOnly": {parameterIsReadOnly-N}
-                    }
-                ],
-                "pgVersion": {postgresVersion-N},
-                "version": {parameterGroupVersion-N},
-                "provisioningState": "Succeeded",
-                "createTime": "2026-03-22T16:18:20.0000000"
-            },
-            "location": "{location-N}",
-            "id": "/subscriptions/{subscriptionId-N}/resourceGroups/{resourceGroupName-N}/providers/Microsoft.HorizonDB/parameterGroups/{parameterGroupName-N}",
-            "name": "{parameterGroupName-N}",
-            "type": "Microsoft.HorizonDB/parameterGroups"
-        }
-    ]
-}
-```
-
-Replace the placeholders:
-- `{subscriptionId}` with your Azure subscription identifier.
-- `{resourceGroupName}` with your resource group name.
-- `{parameterGroupName}` with the parameter group name you want.
 
 ---
 

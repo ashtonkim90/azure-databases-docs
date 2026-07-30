@@ -5,7 +5,7 @@ description: This article describes how to identify which parameter group is con
 author: nachoalonsoportillo
 ms.author: ialonso
 ms.reviewer: maghan
-ms.date: 07/07/2026
+ms.date: 07/14/2026
 ms.service: azure-horizondb
 ms.subservice: parameters-group
 ms.topic: how-to
@@ -32,7 +32,7 @@ Use the [Azure portal](https://portal.azure.com):
     :::image type="content" source="./media/how-to-identify-connected-cluster/parameters.png" alt-text="Screenshot that shows the Parameters page of the selected cluster, from where you can check which parameter group the cluster is connected to." lightbox="./media/how-to-identify-connected-cluster/parameters.png":::
 
     > [!NOTE]
-    > If the parameter group assigned to a cluster is the default, you don't see any parameters listed. This issue is known and will be fixed.
+    > If you assign the default parameter group to a cluster, you don't see any parameters listed. This problem is known and will be fixed.
 
 1. If you select the name, you're taken to the **Overview** page of the parameter group resource.
 
@@ -40,39 +40,26 @@ Use the [Azure portal](https://portal.azure.com):
 
 ### [CLI](#tab/cli-identify-parameter-group-connected-cluster)
 
-[!INCLUDE [no-native-cli-support](../includes/no-native-cli-support.md)]
-
-You can determine the resource identifier of the parameter group to which a cluster is connected using the `az rest` command:
+Use the [az horizondb show](/cli/azure/horizondb?view=azure-cli-latest#az-horizondb-show) command to identify which parameter group is connected to a cluster.
 
 ```azurecli-interactive
-az rest --method GET \
-  --uri "https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDB/clusters/{clusterName}?api-version=2026-01-20-preview" \
+az horizondb show \
+  --resource-group <resource_group>
+  --name <parameter_group>
   --query properties.parameterGroup.id \
-  --format tsv
+  --output tsv
 ```
 
-Replace the placeholders:
-- `{subscriptionId}` with your Azure subscription identifier.
-- `{resourceGroupName}` with your resource group name.
-- `{clusterName}` with the desired cluster name.
-
-You can extract the list of parameters in the parameter group to which a cluster is created using the `az rest` command:
+Use the [az horizondb parameter-group show]() command to get the list of parameters in the parameter group that a cluster connects to.
 
 ```azurecli-interactive
-az rest --method GET \
---url https://management.azure.com$(az rest --method GET \
-  --uri "https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDB/clusters/{clusterName}?api-version=2026-01-20-preview" \
-  --query properties.parameterGroup.id \
-  --output tsv)?api-version=2026-01-20-preview
+az horizondb parameter-group show \
+  --id $(az horizondb show --resource-group <resource_group> --name <cluster> --query properties.parameterGroup.id --output tsv)
+  --query properties.parameters
 ```
-
-Replace the placeholders:
-- `{subscriptionId}` with your Azure subscription identifier.
-- `{resourceGroupName}` with your resource group name.
-- `{clusterName}` with the desired cluster name.
 
 > [!NOTE]
-> If the parameter group assigned to a cluster is the default, you don't see any parameters listed. This issue is known and will be fixed.
+> If you assign the default parameter group to a cluster, you don't see any parameters listed. This problem is known and will be fixed.
 > In this case, you receive the following error: `Not Found({"error":{"code":"ResourceNotFound","message":"The Resource 'Microsoft.HorizonDb/parameterGroups/default_pg17' under resource group '{resourceGroupName}' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}})`
 
 ---

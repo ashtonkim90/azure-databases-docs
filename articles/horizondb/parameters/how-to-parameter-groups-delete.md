@@ -5,7 +5,7 @@ description: This article describes how to delete parameter groups in Azure Hori
 author: nachoalonsoportillo
 ms.author: ialonso
 ms.reviewer: maghan
-ms.date: 07/07/2026
+ms.date: 07/14/2026
 ms.service: azure-horizondb
 ms.subservice: parameters-group
 ms.topic: how-to
@@ -23,7 +23,7 @@ Use the [Azure portal](https://portal.azure.com):
 
 1. Browse the [**Azure HorizonDB (Preview) parameter groups**](https://ms.portal.azure.com/#browse/Microsoft.HorizonDB%2F2FparameterGroups).
 
-1. By using the filtering buttons and the search box, find the parameter group that you want to delete, and select it.
+1. Use the filtering buttons and the search box to find the parameter group that you want to delete, and select it.
 
     :::image type="content" source="./media/how-to-delete-parameter-groups/filter-search-parameter-groups.png" alt-text="Screenshot that shows the browse for Azure HorizonDB (Preview) parameter groups page filtered by the name of the parameter group that you want to delete." lightbox="./media/how-to-delete-parameter-groups/filter-search-parameter-groups.png":::
 
@@ -31,7 +31,7 @@ Use the [Azure portal](https://portal.azure.com):
 
     :::image type="content" source="./media/how-to-delete-parameter-groups/delete-button.png" alt-text="Screenshot that shows the Overview page of the parameter group that you want to delete." lightbox="./media/how-to-delete-parameter-groups/delete-button.png":::
 
-1. Before you attempt to delete a parameter group, you must make sure it isn't connected to any cluster. Trying to delete a parameter group that is connected to some cluster raises an error. The error indicates that all connections to the parameter group must be removed before it can be deleted.
+1. Before you attempt to delete a parameter group, make sure it isn't connected to any cluster. If you try to delete a parameter group that is connected to some cluster, an error occurs. The error indicates that you must remove all connections to the parameter group before you can delete it.
 
     :::image type="content" source="./media/how-to-delete-parameter-groups/deletion-blocked-clusters-connected.png" alt-text="Screenshot that shows the error message shown when trying to delete a parameter group that is connected to some cluster." lightbox="./media/how-to-delete-parameter-groups/deletion-blocked-clusters-connected.png":::
 
@@ -50,25 +50,27 @@ Use the [Azure portal](https://portal.azure.com):
 
 ### [CLI](#tab/cli-delete-parameter-groups)
 
-[!INCLUDE [no-native-cli-support](../includes/no-native-cli-support.md)]
-
-You can delete a parameter group using the `az rest` command:
+Use the [az horizondb parameter-group delete](/cli/azure/horizondb/parameter-group?view=azure-cli-latest#az-horizondb-parameter-group-delete) command to delete a parameter group:
 
 ```azurecli-interactive
-az rest --method DELETE \
-  --uri "https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDB/parameterGroups/{parameterGroupName}?api-version=2026-01-20-preview"
+az horizondb parameter-group delete \
+  --resource-group <resource_group>
+  --name <parameter_group>
 ```
+Use the [az horizondb parameter-group delete](/cli/azure/horizondb/parameter-group?view=azure-cli-latest#az-horizondb-parameter-group-delete) command with the `--yes` parameter to delete a parameter group without being prompted for confirmation:
 
-Replace the placeholders:
-- `{subscriptionId}` with your Azure subscription identifier.
-- `{resourceGroupName}` with your resource group name.
-- `{parameterGroupName}` with the desired parameter group name.
+```azurecli-interactive
+az horizondb parameter-group delete \
+  --resource-group <resource_group>
+  --name <parameter_group>
+  --yes
+```
 
 #### Possible errors
 
 | Error code | Description |
 | --- | --- |
-| `ParameterGroupHasActiveMappings` | When parameter group is connected to one or more clusters. |
+| `ParameterGroupHasActiveMappings` | When the parameter group is connected to one or more clusters. |
 
 ---
 
