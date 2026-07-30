@@ -5,7 +5,7 @@ description: This article describes how to list clusters connected to parameter 
 author: nachoalonsoportillo
 ms.author: ialonso
 ms.reviewer: maghan
-ms.date: 07/07/2026
+ms.date: 07/14/2026
 ms.service: azure-horizondb
 ms.subservice: parameters-group
 ms.topic: how-to
@@ -33,53 +33,13 @@ Use the [Azure portal](https://portal.azure.com):
 
 ### [CLI](#tab/cli-clusters-connected-parameter-group)
 
-[!INCLUDE [no-native-cli-support](../includes/no-native-cli-support.md)]
-
-To list clusters connected to parameter groups, use the `az rest` command:
+Use the [az horizondb parameter-group list-connections](/cli/azure/horizondb/parameter-group?view=azure-cli-latest#az-horizondb-parameter-group-list-connections) command to list the clusters connected to a parameter group:
 
 ```azurecli-interactive
-az rest --method GET \
-  --uri "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDB/parameterGroups/{parameterGroupName}/connections?api-version=2026-01-20-preview"
+az horizondb parameter-group list-connections \
+  --resource-group <resource_group>
+  --name <parameter_group>
 ```
-
-Replace the placeholders:
-- `{subscriptionId}` with your Azure subscription identifier.
-- `{resourceGroupName}` with your resource group name.
-- `{parameterGroupName}` with the parameter group name you want.
-
-The output that command returns looks like this:
-
-```json
-{
-    "connections": [
-        {
-            "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDB/clusters/{clusterName-1}",
-            "name": "{clusterName-1}",
-            "type": "Microsoft.HorizonDB/clusters",
-            "status": "{syncStatus}"
-        },
-    .
-    .
-    .
-        {
-            "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDB/clusters/{clusterName-N}",
-            "name": "{clusterName-N}",
-            "type": "Microsoft.HorizonDB/clusters",
-            "status": "{syncStatus}"
-        },
-    ]
-}
-```
-
-Where `syncStatus` can be any of the following values:
-
-| Value | Description |
-| --- | --- |
-| `ApplicationInProgress` | Parameter application is in progress on the cluster. |
-| `InSync` | Parameters are in sync with the cluster. |
-| `OutOfSync` | Parameters are out of sync with the cluster, meaning that changes aren't effective yet. |
-| `PendingApply` | Parameter application is pending on the cluster. |
-| `PendingReplace` | Parameter group connection with the cluster is being replaced by a new one and is pending rollback or drop. |
 
 ---
 

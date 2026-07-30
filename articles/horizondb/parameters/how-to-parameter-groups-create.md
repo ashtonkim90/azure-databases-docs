@@ -5,7 +5,7 @@ description: This article describes how to create parameter groups in Azure Hori
 author: nachoalonsoportillo
 ms.author: ialonso
 ms.reviewer: maghan
-ms.date: 07/07/2026
+ms.date: 07/14/2026
 ms.service: azure-horizondb
 ms.subservice: parameters-group
 ms.topic: how-to
@@ -27,31 +27,31 @@ Use the [Azure portal](https://portal.azure.com):
 
     :::image type="content" source="./media/how-to-create-parameter-groups/browse-parameter-groups.png" alt-text="Screenshot that shows the browse for Azure HorizonDB (Preview) parameter groups page." lightbox="./media/how-to-create-parameter-groups/browse-parameter-groups.png":::
 
-1. In the **Create a parameter group** page, select the subscription and resource group in which you want to create the parameter group.
+1. In **Create a parameter group**, select the subscription and resource group where you want to create the parameter group.
 
     :::image type="content" source="./media/how-to-create-parameter-groups/select-subscription-resource-group.png" alt-text="Screenshot that shows the Create a parameter group page and a subscription and resource group selected." lightbox="./media/how-to-create-parameter-groups/select-subscription-resource-group.png":::
 
-1. Provide a name which is unique among all the parameter groups that already exist in that resource group of that subscription. Preferably, embed some form of encoded description in the name so that you can later identify the potential target clusters of that configuration.
+1. Enter a name that's unique among all parameter groups in the resource group and subscription. Embed some form of encoded description in the name so that you can later identify the potential target clusters of that configuration.
 
     :::image type="content" source="./media/how-to-create-parameter-groups/parameter-group-name.png" alt-text="Screenshot that shows the Create a parameter group page and a parameter group name provided." lightbox="./media/how-to-create-parameter-groups/parameter-group-name.png":::
 
-1. Select a location in which you want to create the parameter group. Notice that you can only connect parameter groups created in a location to clusters that also exist in that same location.
+1. Select a location for the parameter group. You can only connect parameter groups created in a location to clusters that also exist in that same location.
 
     :::image type="content" source="./media/how-to-create-parameter-groups/location.png" alt-text="Screenshot that shows the Create a parameter group page and a location selected." lightbox="./media/how-to-create-parameter-groups/location.png":::
 
-1. Although not required, we recommend providing a description explaining in more detail what's the purpose of the parameter group configuration you're creating. It can also describe what are the ideal target clusters for which it was conceived.
+1. Although not required, provide a description explaining in more detail the purpose of the parameter group configuration. It can also describe the ideal target clusters for which it was conceived.
 
     :::image type="content" source="./media/how-to-create-parameter-groups/description.png" alt-text="Screenshot that shows the Create a parameter group page and a description provided." lightbox="./media/how-to-create-parameter-groups/description.png":::
 
-1. Finally, select the version of PostgreSQL for which the parameter group is supported. Notice that parameter groups created for a given version of PostgreSQL can't be applied to clusters of a different version of PostgreSQL.
+1. Select the version of PostgreSQL for which the parameter group is supported. Parameter groups created for a given version of PostgreSQL can't be applied to clusters of a different version of PostgreSQL.
 
     :::image type="content" source="./media/how-to-create-parameter-groups/postgresql-version.png" alt-text="Screenshot that shows the Create a parameter group page and a PostgreSQL version selected." lightbox="./media/how-to-create-parameter-groups/postgresql-version.png":::
 
-1. Select **Next** so that you can configure the values of the modifiable parameters whose defaults you want to change in this parameter group.
+1. Select **Next** to configure the values of the modifiable parameters whose defaults you want to change in this parameter group.
 
     :::image type="content" source="./media/how-to-create-parameter-groups/configure-parameters.png" alt-text="Screenshot that shows the Create a parameter group page and the first page of parameters available in the default parameter group selected." lightbox="./media/how-to-create-parameter-groups/configure-parameters.png":::
 
-1. Search for the names of the parameters whose default values you want to override, and change their defaults. Once finished with the list of parameters whose defaults you want to change, select **Create**.
+1. Search for the names of the parameters whose default values you want to override, and change their defaults. When finished, select **Create**.
 
     :::image type="content" source="./media/how-to-create-parameter-groups/change-max-connections-parameter.png" alt-text="Screenshot that shows the Create a parameter group page and the max_connections parameter default value changed." lightbox="./media/how-to-create-parameter-groups/change-max-connections-parameter.png":::
 
@@ -67,52 +67,48 @@ Use the [Azure portal](https://portal.azure.com):
 
     :::image type="content" source="./media/how-to-create-parameter-groups/deployment-completed.png" alt-text="Screenshot that shows the Deployment is completed page." lightbox="./media/how-to-create-parameter-groups/deployment-completed.png":::
 
-1. You can now inspect all details associated to the newly created parameter group.
+1. You can now inspect all details associated with the newly created parameter group.
 
     :::image type="content" source="./media/how-to-create-parameter-groups/parameter-group-created.png" alt-text="Screenshot that shows the Overview page of the newly created parameter group." lightbox="./media/how-to-create-parameter-groups/parameter-group-created.png":::
 
 ### [CLI](#tab/cli-create-parameter-groups)
 
-[!INCLUDE [no-native-cli-support](../includes/no-native-cli-support.md)]
-
-You can create a parameter group using the `az rest` command:
+To create a parameter group and apply changes immediately, use the [az horizondb parameter-group create](/cli/azure/horizondb/parameter-group?view=azure-cli-latest#az-horizondb-parameter-group-create) command.
 
 ```azurecli-interactive
-az rest --method PUT \
-  --uri "https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HorizonDB/parameterGroups/{parameterGroupName}?api-version=2026-01-20-preview" \
-  --body '{
-    "location": "{location}",
-    "properties": {
-      "pgVersion": 17,
-      "description": "{parameterGroupDescription}",
-      "parameters": [
-        {
-          "name": "max_connections",
-          "value": "500"
-        }
-      ]
-    }
-  }'
+az horizondb parameter-group create \
+  --location <location>
+  --resource-group <resource_group>
+  --name <parameter_group>
+  --version <version>
+  --parameters <parameter_name_1=parameter_value_1 parameter_name_2=parameter_value_2... parameter_name_n=parameter_value_n>
+  --apply-immediately true
+  --description <description>
 ```
 
-Replace the placeholders:
-- `{subscriptionId}` with your Azure subscription identifier.
-- `{resourceGroupName}` with your resource group name.
-- `{parameterGroupName}` with the desired parameter group name.
-- `{location}` with the target location.
-- `{parameterGroupDescription}` with the verbose description of the purpose for which this parameter group is created.
+To create a parameter group and don't apply changes immediately, use the [az horizondb parameter-group create](/cli/azure/horizondb/parameter-group?view=azure-cli-latest#az-horizondb-parameter-group-create) command.
+
+```azurecli-interactive
+az horizondb parameter-group create \
+  --location <location>
+  --resource-group <resource_group>
+  --name <parameter_group>
+  --version <version>
+  --parameters <parameter_name_1=parameter_value_1 parameter_name_2=parameter_value_2... parameter_name_n=parameter_value_n>
+  --description <description>
+```
 
 #### Possible errors
 
 | Error code | Description |
 | --- | --- |
-| `ParameterGroupNameConflictsWithDefault` | When the name of the parameter group matches any of the ones reserved for default parameter groups. |
+| `ParameterGroupNameConflictsWithDefault` | When the name of the parameter group matches any of the names reserved for default parameter groups. |
 | `ParameterGroupAlreadyExists` | When a parameter group with the same resource identifier already exists. |
-| `ParameterGroupPgVersionRequired` | When `pgVersion` isn't passed as one of the properties in the input. |
-| `ParameterNotRecognized` | When one or more parameter names passed as input aren't recognized among the ones supported for the version of PostgreSQL for which the parameter group is defined. |
-| `ParameterIsReadOnly` | When one or more parameters passed as input are read-only parameters. |
-| `ParameterValueInvalid` | When the value assigned to one or more parameters passed as input isn't valid according to the data type and allowed values of that parameter. |
-| `ParameterGroupParametersRequired` | When not even one parameter is passed as input. |
+| `ParameterGroupPgVersionRequired` | When `pgVersion` isn't included as one of the properties in the input. |
+| `ParameterNotRecognized` | When one or more parameter names in the input aren't recognized among the ones supported for the version of PostgreSQL for which the parameter group is defined. |
+| `ParameterIsReadOnly` | When one or more parameters in the input are read-only parameters. |
+| `ParameterValueInvalid` | When the value assigned to one or more parameters in the input isn't valid according to the data type and allowed values of that parameter. |
+| `ParameterGroupParametersRequired` | When the input doesn't include any parameter. |
 
 ---
 
