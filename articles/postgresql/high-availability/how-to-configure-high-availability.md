@@ -14,15 +14,13 @@ ms.topic: how-to
 # Configure high availability for Azure Database for PostgreSQL flexible server
 
 This article describes how to enable or disable high availability (HA) on your Azure Database for PostgreSQL flexible server. The information applies whether you're using servers in the same zone or using a zone-redundant deployment model.
-This article describes how to enable or disable high availability (HA) on your Azure Database for PostgreSQL flexible server. The information applies whether you're using servers in the same zone or using a zone-redundant deployment model.
 
-The high-availability feature deploys physically separate primary and standby replicas. You can provision the replicas within the same availability zone or in different zones, depending on the deployment model that you choose. For more information, see the [article about high-availability concepts](/azure/reliability/reliability-postgresql-flexible-server). You can enable high availability during or after the creation of your Azure Database for PostgreSQL flexible server.
 The high-availability feature deploys physically separate primary and standby replicas. You can provision the replicas within the same availability zone or in different zones, depending on the deployment model that you choose. For more information, see the [article about high-availability concepts](/azure/reliability/reliability-postgresql-flexible-server). You can enable high availability during or after the creation of your Azure Database for PostgreSQL flexible server.
 
 ## Enable high availability for existing servers
 
 You can enable high availability on an existing Azure Database for PostgreSQL flexible server at any time. When you enable high availability, the service creates a standby replica that mirrors your primary server. Depending on regional capacity and your configuration choices, the standby can be deployed in a different availability zone for maximum protection or in the same zone as the primary.
-You can enable high availability on an existing Azure Database for PostgreSQL flexible server at any time. When you enable high availability, the service creates a standby replica that mirrors your primary server. Depending on regional capacity and your configuration choices, the standby can be deployed in a different availability zone for maximum protection or in the same zone as the primary.
+
 
 ### [Portal](#tab/portal-enable-existing-server)
 
