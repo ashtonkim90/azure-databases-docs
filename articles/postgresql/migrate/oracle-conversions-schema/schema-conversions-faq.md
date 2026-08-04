@@ -61,7 +61,7 @@ On the Azure side:
 
 - An [Azure Database for PostgreSQL flexible server](/azure/postgresql/flexible-server/quickstart-create-server) (PostgreSQL version 15 or later recommended).
 - A login with the privileges to create schemas, tables, functions, and extensions. During conversion, the tool creates scratch schemas named with the `_mig_scratch_` prefix in the selected PostgreSQL database to validate converted objects, and drops them when the run completes.
-- The required PostgreSQL extensions allowlisted and installed, and `search_path` configured. The canonical list is in [Best practices for schema conversion](schema-conversions-best-practices.md#allow-list-and-install-required-extensions).
+- The required PostgreSQL extensions allowlisted and installed, and `search_path` configured. The canonical list is in [Best practices for schema conversion](schema-conversions-best-practices.md#allowlist-and-install-required-extensions).
 - A [Microsoft Foundry deployment](/azure/ai-foundry/how-to/create-projects) with sufficient token-per-minute capacity. See [Microsoft Foundry capacity recommendations](schema-conversions-best-practices.md#configure-microsoft-foundry-capacity).
 
 On the Oracle side, see the [Oracle source requirements in the tutorial](schema-conversions-tutorial.md).

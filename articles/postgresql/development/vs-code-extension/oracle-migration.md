@@ -5,10 +5,11 @@ description: Migrate from Oracle to PostgreSQL using the built-in migration tool
 author: mmcfarland
 ms.author: mmcfarland
 ms.reviewer: nachoalonsoportillo, maghan
-ms.date: 07/22/2026
+ms.date: 08/04/2026
 ms.service: azure-database-postgresql
 ms.subservice: extensions
 ms.topic: how-to
+ai-usage: ai-assisted
 # customer intent: As a user, I want to migrate Oracle schemas and application code to PostgreSQL with guided AI assistance, so that I can manage conversion and validation in Visual Studio Code.
 ---
 
@@ -19,6 +20,29 @@ The PostgreSQL extension for Visual Studio Code provides an end-to-end workflow 
 > [!IMPORTANT]  
 > **The Oracle to PostgreSQL migration workflow is available in Visual Studio Code only.**
 
+## How schema and application conversion fit together
+
+The extension converts an Oracle workload in two passes. Schema conversion runs first and produces the PostgreSQL data definition language (DDL) for your database objects. Application conversion runs afterward and updates the code that calls those objects.
+
+### Schema conversion
+
+Schema conversion reads the Oracle data dictionary for the schemas you select, groups the extracted objects into dependency-ordered chunks, and converts each chunk by using your Microsoft Foundry deployment. Converted objects are compiled against the scratch database before they're written out, so the DDL you receive is verified rather than a best guess. A run produces:
+
+- Object-level PostgreSQL `.sql` files, organized by Oracle schema and object type.
+- A conversion report that records which objects converted, which were skipped, and the overall success rate.
+- Review tasks for objects that need human judgment, such as fallback DDL or behavior that differs between Oracle and PostgreSQL.
+- Coding notes that describe the Oracle patterns found in the schema and how they map to PostgreSQL.
+
+### Application conversion
+
+Application conversion targets the Oracle-specific code that surrounds the database: SQL scripts, stored procedure calls, loader control files, shell scripts, and Java files. It takes the coding notes from schema conversion as input, so the converted application code lines up with the object names, types, and calling conventions that schema conversion actually produced.
+
+You can convert database-related application code inside this extension, or hand the work to the GitHub Copilot app modernization extension for a full modernization pass.
+
+### Sequence the two passes
+
+Run schema conversion first. Application conversion depends on the coding notes and converted object names that schema conversion generates, so converting application code before the schema settles produces code that targets objects that might still change. If you rerun schema conversion after you change the schema scope or fix a source object, review the application code again against the updated coding notes.
+
 ## Prerequisites
 
 Before you begin, ensure you have:
@@ -26,18 +50,14 @@ Before you begin, ensure you have:
 - [Visual Studio Code](https://code.visualstudio.com/) installed.
 - The [PostgreSQL extension](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql) installed.
 - Access to an Oracle source database with read permissions for schema extraction.
-- A PostgreSQL instance to use as a scratch validation database (for example, an Azure Database for PostgreSQL flexible server or Azure HorizonDB).
+- An Azure Database for PostgreSQL flexible server to use as a scratch validation database. Schema conversion doesn't support Azure HorizonDB as the scratch database.
 - A Microsoft Foundry resource with a deployed `gpt-5.2` model. You need the endpoint URL and either an API key or a Microsoft Entra ID account with access.
 
 ## Verify the migrations feature is enabled
 
-The `pgsql.enableMigrations` setting controls the **Migrations (Preview)** view and all migration commands. This setting is enabled by default.
+The `pgsql.enableMigrations` setting controls the **Migrations** view and all migration commands. This setting is enabled by default.
 
-If the **Migrations (Preview)** view doesn't appear in the sidebar, verify the setting:
-
-1. Open VS Code settings (<kbd>Ctrl</kbd>+<kbd>,</kbd> on Windows/Linux, <kbd>Cmd</kbd>+<kbd>,</kbd> on macOS).
-1. Search for `pgsql.enableMigrations`.
-1. Confirm the value is `true`.
+If the **Migrations** view doesn't appear in the sidebar, open Visual Studio Code settings (<kbd>Ctrl</kbd>+<kbd>,</kbd> on Windows/Linux, <kbd>Cmd</kbd>+<kbd>,</kbd> on macOS) and verify that `pgsql.enableMigrations` is set to `true`.
 
 ## Create a migration project
 
@@ -45,15 +65,19 @@ A migration project is a four-step wizard that collects your source, target, and
 
 ### Step 1: Project setup
 
-1. Open the **Migrations (Preview)** view in the sidebar.
-1. Select the **+** button in the view toolbar, or right-click a workspace folder in Explorer and select **Create Migration Project**.
+1. Open the **Migrations** view in the sidebar.
+1. Start a new project in one of these ways:
+
+   - If the workspace doesn't contain a migration project yet, select **+ Create Migration Project** in the view.
+   - Select the **+** button in the view toolbar.
+   - Right-click a workspace folder in Explorer and select **Open Migration Project**.
 
    The **New Oracle to Azure Database for PostgreSQL migration project** page opens, listing what you need:
 
    - Connection details for the source database
-   - Name of the schema(s) to convert
+   - Names of the schemas to convert
    - Endpoint URL and key for a Microsoft Foundry resource
-   - Connection name for an existing PostgreSQL instance
+   - Connection name for an existing Azure Database for PostgreSQL instance
 
 1. Enter a name in the **Project Name** field.
 1. Select **Next: Oracle Connection**.
@@ -87,9 +111,7 @@ The **Choose an Azure Database for PostgreSQL scratch database** page selects th
 
 1. In the **PostgreSQL Connection** dropdown list, select an existing connection profile. If the connection you need isn't listed, select **Refresh Profiles** to reload available profiles, or create a new connection in the [Connections and identity](connections.md) view first.
 1. In the **PostgreSQL Database** dropdown list, select the target database. Select **Load Databases** if the list is empty.
-1. After you select a database, the extension checks recommended PostgreSQL extensions. The behavior depends on the target:
-   - **Azure Database for PostgreSQL flexible server**: the extension automatically verifies that recommended extensions are installed. You can also select **Verify Extensions** to run the check manually. If any extensions are missing, the page lists them with guidance on allowlisting and installing them.
-   - **Azure HorizonDB**: the extension lists the recommended extensions for the selected database and links to the Azure HorizonDB documentation. Allowlist and install those extensions before you start schema conversion.
+1. After you select a database, the extension automatically verifies that the recommended PostgreSQL extensions are installed. You can also select **Verify Extensions** to run the check manually. If any extensions are missing, the page lists them with guidance on allowlisting and installing them.
 1. Select **Next: Microsoft Foundry Model Configuration**.
 
 ### Step 4: Configure the Microsoft Foundry model
@@ -105,7 +127,7 @@ The **Choose a Microsoft Foundry Model** page configures the Microsoft Foundry d
    | **Authentication Method** | Choose **API Key** or **Microsoft Entra Id**. |
    | **Microsoft Foundry API Key** | API key for the Microsoft Foundry resource (shown when **Authentication Method** is **API Key**). |
    | **Azure Account** | Microsoft account with access to the resource (shown when **Authentication Method** is **Microsoft Entra Id**). |
-   | **Tenant** | Azure AD tenant for the account (shown when **Authentication Method** is **Microsoft Entra Id**). |
+   | **Tenant** | Microsoft Entra tenant for the account (shown when **Authentication Method** is **Microsoft Entra Id**). |
    | **Deployment Name** | Name of the deployed model in your Microsoft Foundry resource. |
 
 1. Select **Test Microsoft Foundry Connection** to verify connectivity.
@@ -177,14 +199,14 @@ The **Tasks** view shows all review tasks in a flat table. Use this view when yo
 
 ## Migrate application code
 
-After schema migration, convert Oracle-specific application code (SQL scripts, stored procedures, loader control files, shell scripts, or Java files) to PostgreSQL-compatible equivalents. Application migration is a Preview feature.
+After schema migration, convert Oracle-specific application code (SQL scripts, stored procedures, loader control files, shell scripts, or Java files) to PostgreSQL-compatible equivalents. Application migration is a preview feature.
 
 ### Choose a migration method
 
 The extension offers two paths for application code migration:
 
-- **Full app modernization** &mdash; If the GitHub Copilot app modernization extension is installed, select **Migrate using app modernization** to continue the migration with coding notes from the schema conversion. Select **View coding notes** to review the generated guidance before proceeding.
-- **Database-only option** &mdash; To convert only database-related application code within this extension, select **Migrate using PostgreSQL extension**.
+- **Full app modernization**: If you install the GitHub Copilot app modernization extension, select **Migrate using app modernization** to continue the migration with coding notes from the schema conversion. Select **View coding notes** to review the generated guidance before proceeding.
+- **Database-only option**: To convert only database-related application code within this extension, select **Migrate using PostgreSQL extension**.
 
 ### Convert application code within the extension
 
@@ -198,13 +220,13 @@ The extension offers two paths for application code migration:
 
 The extension registers two Copilot language model tools for migration assistance:
 
-- **Oracle Client Code Application Converter** (`pgsql_migration_oracle_app`) &mdash; Converts Oracle client application code to PostgreSQL equivalents using prompt templates and coding guidance from the schema migration analysis. Accepts the following parameters:
-  - **Application Codebase Folder** (required) &mdash; Location of the code to convert.
-  - **Coding Notes Location Path** (optional) &mdash; Path to coding notes from the schema migration.
-  - **Postgres DB Name** (optional) &mdash; Name of the PostgreSQL database for conversion context.
-  - **Postgres DB Connection** (optional) &mdash; Connection name for the PostgreSQL database.
+- **Oracle Client Code Application Converter** (`pgsql_migration_oracle_app`): Converts Oracle client application code to PostgreSQL equivalents by using prompt templates and coding guidance from the schema migration analysis. Accepts the following parameters:
+  - **Application Codebase Folder** (required): Location of the code to convert.
+  - **Coding Notes Location Path** (optional): Path to coding notes from the schema migration.
+  - **Postgres DB Name** (optional): Name of the PostgreSQL database for conversion context.
+  - **Postgres DB Connection** (optional): Connection name for the PostgreSQL database.
 
-- **Show Oracle to Postgres Migration Report** (`pgsql_migration_show_report`) &mdash; Displays the migration report generated by the schema conversion. Requires a **Path to Report File** parameter.
+- **Show Oracle to Postgres Migration Report** (`pgsql_migration_show_report`): Displays the migration report generated by the schema conversion. Requires a **Path to Report File** parameter.
 
 For more information on using Copilot tools, see [Copilot integration](copilot-integration.md).
 
@@ -222,7 +244,7 @@ The side-by-side diff view shows the original Oracle source alongside the conver
 
 ## Manage migration projects
 
-Use the **Migrations (Preview)** view in the sidebar to manage your projects:
+Use the **Migrations** view in the sidebar to manage your projects:
 
 | Action | Description |
 | --- | --- |
@@ -233,6 +255,11 @@ Use the **Migrations (Preview)** view in the sidebar to manage your projects:
 
 ## Related content
 
+- [What is Oracle to Azure Database for PostgreSQL flexible server schema conversion?](../../migrate/oracle-conversions-schema/schema-conversions-overview.md)
+- [Tutorial: Oracle to Azure Database for PostgreSQL flexible server schema conversion](../../migrate/oracle-conversions-schema/schema-conversions-tutorial.md)
+- [Best practices for Oracle to Azure Database for PostgreSQL flexible server schema conversion](../../migrate/oracle-conversions-schema/schema-conversions-best-practices.md)
+- [Review tasks and output folders for Oracle to Azure Database for PostgreSQL flexible server schema conversion](../../migrate/oracle-conversions-schema/schema-conversions-review-tasks-artifacts.md)
+- [Oracle to Azure Database for PostgreSQL flexible server schema conversion limitations](../../migrate/oracle-conversions-schema/schema-conversions-limitations.md)
 - [Copilot integration](copilot-integration.md)
 - [Connections and identity](connections.md)
 - [Settings reference](reference/settings.md)

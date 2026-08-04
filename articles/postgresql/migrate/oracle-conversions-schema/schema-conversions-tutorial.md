@@ -4,12 +4,12 @@ description: Step-by-step tutorial for converting Oracle database schemas to Azu
 author: apduvuri
 ms.author: adityaduvuri
 ms.reviewer: maghan
-ms.date: 06/08/2026
+ms.date: 08/04/2026
 ms.service: azure-database-postgresql
 ms.topic: tutorial
 ms.collection:
   - ce-skilling-ai-copilot
-ms.update-cycle: 90-days
+ms.update-cycle: 180-days
 ai-usage: ai-assisted
 ---
 
@@ -161,7 +161,7 @@ This section walks through the complete migration workflow. You install the Post
 ### Step 4: Initialize a migration project
 
 1. Open the **PostgreSQL extension**.
-1. Go to the **Migrations (preview)** panel.
+1. Go to the **Migrations** panel.
 1. Select **Create Migration Project**.
 
    :::image type="content" source="media/schema-conversions-tutorial/create-migration.png" alt-text="Screenshot of creating a new migration project." lightbox="media/schema-conversions-tutorial/create-migration.png" :::
@@ -228,7 +228,7 @@ This section walks through the complete migration workflow. You install the Post
 1. After the schema conversion finishes, the tool creates **review tasks** for objects that need attention.
 1. Use **GitHub Copilot agent mode** to resolve the tasks, or manually convert the schemas to PostgreSQL.
 1. Compare the previous and the newly converted schema conversion statements.
-1. For more information about task priorities, generated SQL files, and output folders, see [Review tasks and output folders for Oracle to Azure Database for PostgreSQL schema conversion](schema-conversions-review-tasks-artifacts.md).
+1. For more information about task priorities, generated SQL files, and output folders, see [Review tasks and output folders for Oracle to Azure Database for PostgreSQL flexible server schema conversion](schema-conversions-review-tasks-artifacts.md).
 
 ### Step 12: Validate converted objects before deployment
 
@@ -239,10 +239,10 @@ This section walks through the complete migration workflow. You install the Post
 > [!IMPORTANT]  
 > Customer validation responsibility: The same AI engine used for schema conversion can also assist with validation and review. AI systems can occasionally confirm their own mistakes. To prevent data loss, functional regressions, or security issues, independently validate all converted objects and review-task resolutions before you deploy to production. As part of your controls, consider enabling Microsoft Foundry content filtering to help reduce harmful or undesired outputs. For guidance, see [Content filtering for Microsoft Foundry Models](/azure/ai-foundry/openai/concepts/content-filter).
 
-For more information about the Visual Studio Code extension, visit [PostgreSQL extension for Visual Studio Code](../../development/vs-code-extension/postgresql-extension-overview.md).
+For more information about the Visual Studio Code extension, visit [PostgreSQL extension for Visual Studio Code and Cursor](../../development/vs-code-extension/postgresql-extension-overview.md).
 
 ## Related content
 
-- [What is Oracle to Azure Database for PostgreSQL schema conversion?](schema-conversions-overview.md)
-- [Review tasks and output folders for Oracle to Azure Database for PostgreSQL schema conversion](schema-conversions-review-tasks-artifacts.md)
-- [Oracle to Azure Database for PostgreSQL schema conversion limitations](schema-conversions-limitations.md)
+- [What is Oracle to Azure Database for PostgreSQL flexible server schema conversion?](schema-conversions-overview.md)
+- [Review tasks and output folders for Oracle to Azure Database for PostgreSQL flexible server schema conversion](schema-conversions-review-tasks-artifacts.md)
+- [Oracle to Azure Database for PostgreSQL flexible server schema conversion limitations](schema-conversions-limitations.md)

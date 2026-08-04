@@ -1,15 +1,16 @@
 ---
-title: What is Oracle to Azure Database for PostgreSQL flexible server schema conversion?
+title: What Is Oracle to Azure Database for PostgreSQL flexible server Schema Conversion?
 description: Learn how to convert Oracle database schemas to Azure Database for PostgreSQL by using the Visual Studio Code PostgreSQL extension, AI-powered transformation in Microsoft Foundry, and review tasks for migration to Azure Database for PostgreSQL flexible server.
 author: apduvuri
 ms.author: adityaduvuri
 ms.reviewer: maghan
-ms.date: 06/02/2026
-ai-usage: ai-assisted
+ms.date: 08/04/2026
 ms.service: azure-database-postgresql
 ms.topic: overview
-ms.collection: ce-skilling-ai-copilot
+ms.collection:
+  - ce-skilling-ai-copilot
 ms.update-cycle: 180-days
+ai-usage: ai-assisted
 ---
 
 # What is Oracle to Azure Database for PostgreSQL flexible server schema conversion?
@@ -18,7 +19,7 @@ The Oracle to Azure Database for PostgreSQL schema conversion feature in the Vis
 
 The tool provides a project-based user interface to automate schema conversion. If certain objects can't be converted automatically, the tool flags them as review tasks, which you can resolve manually by using GitHub Copilot agent mode.
 
-:::image type="content" source="media/schema-conversions-overview/schema-conversion.png" alt-text="Diagram of the Oracle to Azure Database for PostgreSQL schema conversion architecture.":::
+:::image type="content" source="media/schema-conversions-overview/schema-conversion.png" alt-text="Diagram of the Oracle to Azure Database for PostgreSQL schema conversion architecture." lightbox="media/schema-conversions-overview/schema-conversion.png" :::
 
 ## Architecture
 
@@ -67,7 +68,7 @@ Using scratch schemas inside a scratch database lets the tool verify that:
 - Object definitions remain compatible with the target PostgreSQL version.
 - Azure Database for PostgreSQL flexible server features apply correctly.
 
-> [!NOTE]
+> [!NOTE]  
 > The connecting user must have `CREATE` privileges on the scratch database so the tool can create and drop scratch schemas (named with the `_mig_scratch_` prefix) as needed.
 
 ### Review tasks
@@ -78,7 +79,7 @@ The tool flags items for manual review when the AI can't fully convert an object
 - Oracle-specific data types that have multiple PostgreSQL alternatives.
 - Custom functions that contain Oracle-specific logic.
 
-For more information about review task priorities and generated output folders, see [Review tasks and output folders for Oracle to Azure Database for PostgreSQL schema conversion](schema-conversions-review-tasks-artifacts.md).
+For more information about review task priorities and generated output folders, see [Review tasks and output folders for Oracle to Azure Database for PostgreSQL flexible server schema conversion](schema-conversions-review-tasks-artifacts.md).
 
 ### GitHub Copilot agent mode
 
@@ -147,7 +148,7 @@ To use Microsoft Entra ID authentication:
 1. **Select Entra ID authentication**: In the **Migration Wizard** language model configuration step, select **Microsoft Entra ID** as the authentication method instead of **API key**.
 1. **Provide the endpoint**: Enter your Microsoft Foundry endpoint URL. The tool acquires the authentication token automatically from your signed-in session.
 
-> [!NOTE]
+> [!NOTE]  
 > Microsoft Entra ID authentication requires the **Azure Account** extension in Visual Studio Code. The extension must be signed in with an identity that has the appropriate role assignment on the Microsoft Foundry resource.
 
 ## Security and networking
@@ -158,9 +159,9 @@ Microsoft recommends connecting to your Microsoft Foundry resource by using a pr
 
 For more information about securing your Microsoft Foundry connections, see [Data, privacy, and security for Azure Direct Models in Microsoft Foundry](/azure/ai-foundry/responsible-ai/openai/data-privacy?tabs=azure-portal).
 
-:::image type="content" source="media/schema-conversions-overview/azure-openai-networking.png" alt-text="Diagram of how Visual Studio Code connects to a private endpoint.":::
+:::image type="content" source="media/schema-conversions-overview/azure-openai-networking.png" alt-text="Diagram of how Visual Studio Code connects to a private endpoint." lightbox="media/schema-conversions-overview/azure-openai-networking.png" :::
 
-> [!IMPORTANT]
+> [!IMPORTANT]  
 > Customer validation responsibility: The same AI engine used for schema conversion can also assist with validation and review. AI systems can occasionally confirm their own mistakes. To prevent data loss, functional regressions, or security issues, independently validate all converted objects and review-task resolutions before deploying to production. As part of your controls, consider enabling Foundry content filtering to help reduce harmful or undesired outputs. For guidance, see [Content filtering in Foundry](/azure/ai-foundry/concepts/content-filtering).
 
 ## Why use the schema conversion feature?
@@ -184,7 +185,9 @@ The conversion tool supports a broad range of Oracle schema and code objects, in
 
 The schema conversion tool combines AI-powered translation with automated validation to deliver reliable results. Microsoft Foundry models translate Oracle DDL into PostgreSQL. The tool then compiles each converted object against a scratch schema in your target Azure Database for PostgreSQL flexible server, runs static analysis, and applies automated fixes for common issues. The remaining stages of the pipeline - source parsing, metadata extraction, and script generation - run as predictable, rule-based steps.
 
-This approach uses AI where it adds the most value and keeps the rest of the workflow deterministic and verifiable. Objects that can't be fully validated are flagged as review tasks so you can address them before you apply the converted schema. For Oracle features that don't have a practical PostgreSQL equivalent, see [Schema conversion limitations](schema-conversions-limitations.md).
+For PL/pgSQL routines, the tool adds a body-semantics check that uses the `plpgsql_check` extension on the scratch database. When the check finds a defect that plain compilation doesn't catch, the tool discards that routine and sends it back through the AI fix loop instead of writing it to the output. For more information, see [Validate converted PL/pgSQL with plpgsql_check](#validate-converted-plpgsql-with-plpgsql_check).
+
+This approach uses AI where it adds the most value and keeps the rest of the workflow deterministic and verifiable. Objects that can't be fully validated are flagged as review tasks so you can address them before you apply the converted schema. For Oracle features that don't have a practical PostgreSQL equivalent, see [Oracle to Azure Database for PostgreSQL flexible server schema conversion limitations](schema-conversions-limitations.md).
 
 ### Database schema objects
 
@@ -209,6 +212,46 @@ The conversion tool supports the following Oracle code constructs:
 - **Functions**: User-defined functions with complex logic.
 - **Stored procedures**: Oracle stored procedures and parameter handling.
 - **Types and collections**: Oracle object types, `TYPE BODY` member methods, `VARRAY`, nested tables, and `SUBTYPE` declarations.
+
+### Package conversion
+
+Oracle packages don't have a direct PostgreSQL equivalent, so the tool converts each part of a package to a PostgreSQL construct that preserves the callable surface:
+
+- **Constants**: The tool converts public package constants to `IMMUTABLE` getter functions.
+- **Collections and cursors**: Nested tables and `VARRAY` become array domains, where `VARRAY` also gets a length constraint. String-keyed associative arrays become `jsonb` domains, and `REF CURSOR` becomes `refcursor`.
+- **Package state**: Public package variables become getter and setter pairs backed by a session setting, which emulates Oracle package session state.
+- **Exceptions**: User-declared exceptions become functions that return a `SQLSTATE` value. For example, an exception initialized with `-20001` maps to `U0001`.
+- **Specification-only packages**: A package that has no body converts to stubs that raise an error when called, so the callable surface still exists.
+
+### Hierarchical queries
+
+Oracle hierarchical queries convert to PostgreSQL `WITH RECURSIVE` common table expressions. The tool converts `CONNECT BY` and `PRIOR` to the recursive member join, `START WITH` to the anchor member, and `LEVEL` to a depth counter. It also converts `SYS_CONNECT_BY_PATH`, `CONNECT_BY_ROOT`, `ORDER SIBLINGS BY`, and `NOCYCLE`. After conversion, the tool verifies that the generated object has the expected recursive shape and retries the conversion if it doesn't.
+
+### Transaction control
+
+A routine that uses `PRAGMA AUTONOMOUS_TRANSACTION` keeps its original Oracle object class, so a function stays a function and existing callers that use it in a `SELECT` or expression keep working. The autonomous work runs on a separate connection through the `dblink` extension, so make sure `dblink` is available on the target server. A routine that uses an explicit `COMMIT` or `ROLLBACK` without this pragma converts to a procedure, because PostgreSQL allows transaction control there.
+
+## Validate converted PL/pgSQL with plpgsql_check
+
+PostgreSQL doesn't fully validate a PL/pgSQL routine body when you create it. `CREATE FUNCTION` confirms that the body parses, but it doesn't resolve the tables, columns, and variables that the body references. A routine that reads a column that doesn't exist is created successfully and fails only the first time it runs. In a migration, that turns a conversion defect into a production incident, because the deployment looks clean.
+
+The schema conversion tool closes that gap with the `plpgsql_check` extension. After a converted routine compiles on the scratch database, the tool runs a body-semantics check against it. When the check finds a genuine defect, the tool discards the routine and returns it to the AI fix loop, which repairs it and compiles it again. Only routines that pass are written to the conversion output.
+
+This validation is the main reason a converted routine is trustworthy before you ever deploy it. Treat `plpgsql_check` as a required part of the conversion environment rather than an optional extra.
+
+### Where the check runs
+
+The check runs entirely on the scratch database that the tool creates during conversion. Your target database doesn't need `plpgsql_check` at run time, and nothing that the tool generates depends on it. The extension is a conversion-time quality gate, not a runtime dependency.
+
+### What happens when the extension isn't available
+
+The check is fail-open. When `plpgsql_check` isn't allowlisted or isn't available on the server that hosts the scratch database, the tool skips the check and conversion continues. No error and no warning appears in the schema conversion report, so a run without the extension looks the same as a run with it.
+
+Routines are still compiled, so syntax errors are still caught. What you lose is the deeper body validation, so defects such as an unresolved column or table reference can reach the generated output and surface later at run time. Confirm that the extension is available before you rely on conversion results.
+
+### Make the check available
+
+`plpgsql_check` is supported on Azure Database for PostgreSQL flexible server for PostgreSQL 14 and later. Allowlist the extension, add it to `shared_preload_libraries`, and restart the server before you convert. The tool then installs the extension on the scratch database for you. For the full procedure, see [Best practices for Oracle to Azure Database for PostgreSQL flexible server schema conversion](schema-conversions-best-practices.md).
 
 ## Supported Oracle versions
 
@@ -239,6 +282,6 @@ When you create your issue or provide feedback, include `Schema Conversion:` as 
 
 ## Related content
 
-- [Best practices for Oracle to Azure Database for PostgreSQL schema conversion](schema-conversions-best-practices.md)
-- [Review tasks and output folders for Oracle to Azure Database for PostgreSQL schema conversion](schema-conversions-review-tasks-artifacts.md)
-- [Schema conversion limitations](schema-conversions-limitations.md)
+- [Best practices for Oracle to Azure Database for PostgreSQL flexible server schema conversion](schema-conversions-best-practices.md)
+- [Review tasks and output folders for Oracle to Azure Database for PostgreSQL flexible server schema conversion](schema-conversions-review-tasks-artifacts.md)
+- [Oracle to Azure Database for PostgreSQL flexible server schema conversion limitations](schema-conversions-limitations.md)
