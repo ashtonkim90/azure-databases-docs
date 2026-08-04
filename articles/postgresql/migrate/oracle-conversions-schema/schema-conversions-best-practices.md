@@ -1,15 +1,16 @@
 ---
-title: Best practices for Oracle to Azure Database for PostgreSQL flexible server schema conversion
+title: Best Practices for Oracle to Azure Database for PostgreSQL flexible server Schema Conversion
 description: Best practices and recommendations for Oracle to Azure Database for PostgreSQL schema conversion by using the Visual Studio Code PostgreSQL extension with Microsoft Foundry integration.
 author: apduvuri
 ms.author: adityaduvuri
 ms.reviewer: maghan
-ms.date: 06/02/2026
-ai-usage: ai-assisted
+ms.date: 08/04/2026
 ms.service: azure-database-postgresql
 ms.topic: concept-article
-ms.collection: ce-skilling-ai-copilot
+ms.collection:
+  - ce-skilling-ai-copilot
 ms.update-cycle: 180-days
+ai-usage: ai-assisted
 ---
 
 # Best practices for Oracle to Azure Database for PostgreSQL flexible server schema conversion
@@ -30,7 +31,7 @@ Use the same PostgreSQL major version on the scratch database as on the producti
 
 ### Scan for unsupported objects in advance
 
-Review the [Oracle to Azure Database for PostgreSQL schema conversion limitations](schema-conversions-limitations.md) before you start. For each unsupported object, decide in advance whether to recreate the functionality natively on PostgreSQL, replatform it to an appropriate Azure service, or drop it from the migration scope.
+Review the [Oracle to Azure Database for PostgreSQL flexible server schema conversion limitations](schema-conversions-limitations.md) before you start. For each unsupported object, decide in advance whether to recreate the functionality natively on PostgreSQL, replatform it to an appropriate Azure service, or drop it from the migration scope.
 
 ### Plan remediation for unsupported objects
 
@@ -39,6 +40,19 @@ For each unsupported object identified in the previous step, record the chosen r
 - The Oracle object name and type.
 - The chosen path: recreate, replatform, or drop.
 - The target Azure service or PostgreSQL pattern, if you're replatforming.
+
+### Choose where to run the conversion
+
+For small schemas, you can run the conversion from your local workstation. For larger schemas, run Visual Studio Code and the schema conversion tool on an Azure virtual machine instead.
+
+A large conversion runs for a long time and makes sustained calls to your Oracle source, the scratch database, and Microsoft Foundry. Running from an Azure virtual machine gives you:
+
+- **Network proximity**: The virtual machine sits in the same Azure region as your Azure Database for PostgreSQL flexible server and your Microsoft Foundry resource, which reduces round-trip latency on the many calls a conversion makes.
+- **Stable, long-running sessions**: The conversion isn't interrupted by workstation sleep, reboots, VPN drops, or corporate network timeouts.
+- **Private connectivity**: You can place the virtual machine in the same virtual network as your target server and Microsoft Foundry private endpoint, so traffic doesn't traverse the public internet.
+- **Predictable resources**: You can size CPU, memory, and disk for the conversion workload, and keep artifacts on a managed disk that you back up.
+
+Place the virtual machine in the region that hosts your scratch database, and give it network access to the source Oracle database. If you use thick client mode, install Oracle Instant Client on the virtual machine. For more information, see [Oracle connectivity modes](schema-conversions-overview.md#oracle-connectivity-modes).
 
 ## Prepare the source Oracle environment
 
@@ -76,9 +90,9 @@ The PostgreSQL connection user that the conversion tool uses needs privileges to
 
 The scratch database validates DDL only; it doesn't host application workload. Use a compute tier that provides stable connection capacity for conversion and validation activity. Size the scratch database separately from the production target, and downsize it after conversion is complete.
 
-### Allow list and install required extensions
+### Allowlist and install required extensions
 
-The schema conversion tool depends on several PostgreSQL extensions. These extensions translate Oracle built-in packages, spatial types, partitioning, and full-text search. They also enable observability on the scratch database. Allow list and install the extensions that the converted schema needs before your first conversion run.
+The schema conversion tool depends on several PostgreSQL extensions. These extensions translate Oracle built-in packages, spatial types, partitioning, and full-text search. They also enable observability on the scratch database. Allowlist and install the extensions that the converted schema needs before your first conversion run.
 
 The following table lists commonly used extensions for Oracle to Azure Database for PostgreSQL conversions. Include the ones that apply to the source schema, and add any others the workload requires.
 
@@ -86,16 +100,26 @@ The following table lists commonly used extensions for Oracle to Azure Database 
 | --- | --- |
 | `orafce` | Oracle built-in package compatibility (`DBMS_*`, `PLV*`, `UTL_FILE`, and common functions) |
 | `uuid-ossp` | UUID generation, equivalent to Oracle `SYS_GUID` |
+| `pgcrypto` | Cryptographic and hashing functions, equivalent to Oracle `DBMS_CRYPTO` |
 | `pg_trgm` | Trigram indexes for `LIKE`/`ILIKE` and fuzzy text search |
 | `postgis` | Spatial types and operators (replaces Oracle Spatial) |
 | `postgis_topology` | Topology model for PostGIS |
 | `postgis_tiger_geocoder` | Geocoder bundled with PostGIS |
 | `pg_partman` | Time- and range-based partition management |
 | `pg_stat_statements` | Per-query performance telemetry |
+| `plpgsql_check` | Deeper validation of converted PL/pgSQL routine bodies on the scratch database |
+| `dblink` | Autonomous transactions (`PRAGMA AUTONOMOUS_TRANSACTION`), if the source schema uses them |
 
-#### Step 1: Allow list the extensions
+The tool creates `plpgsql_check` on the scratch database automatically when the extension is allowlisted. Allowlist it before your first run so converted routines get full body validation. If the extension isn't available, conversion still succeeds, but the extra validation is skipped silently. `plpgsql_check` is required only on the scratch database. The converted schema doesn't depend on it at run time.
 
-In the Azure portal, open the Azure Database for PostgreSQL flexible server that hosts your scratch database. Select **Server parameters**, search for `azure.extensions`, and select each extension from the list. Save your changes. Extensions such as `pg_partman` and `pg_stat_statements` also require entries in `shared_preload_libraries`. These entries need a server restart. For more information, see [How to use PostgreSQL extensions](/azure/postgresql/flexible-server/concepts-extensions).
+Add `dblink` only when the source schema uses `PRAGMA AUTONOMOUS_TRANSACTION`. In that case, the converted code needs `dblink` on the target server, not just the scratch database.
+
+> [!NOTE]  
+> `plpgsql_check` is supported on Azure Database for PostgreSQL flexible server for PostgreSQL 14 and later. On PostgreSQL 13 and earlier, converted routines are still compiled and validated, but the extra body checks don't run.
+
+#### Step 1: Allowlist the extensions
+
+In the Azure portal, open the Azure Database for PostgreSQL flexible server that hosts your scratch database. Select **Server parameters**, search for `azure.extensions`, and select each extension from the list. Save your changes. Extensions such as `pg_partman`, `pg_stat_statements`, and `plpgsql_check` also require entries in `shared_preload_libraries`. These entries need a server restart. For more information, see [How to use PostgreSQL extensions](/azure/postgresql/flexible-server/concepts-extensions).
 
 #### Step 2: Install the extensions in the scratch database
 
@@ -104,26 +128,31 @@ Connect to the scratch database as a member of the `azure_pg_admin` role and cre
 ```sql
 CREATE EXTENSION IF NOT EXISTS orafce;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
 CREATE EXTENSION IF NOT EXISTS postgis;
 CREATE EXTENSION IF NOT EXISTS postgis_topology;
 CREATE EXTENSION IF NOT EXISTS postgis_tiger_geocoder;
 CREATE EXTENSION IF NOT EXISTS pg_partman;
 CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
+CREATE EXTENSION IF NOT EXISTS plpgsql_check;
 ```
 
 #### Step 3: Configure search_path for Oracle compatibility
 
-`orafce` installs Oracle-compatible packages in dedicated schemas (`oracle`, `dbms_*`, `plv*`, `utl_file`). Add those schemas, along with the PostGIS (`topology`, `tiger`) and `pg_cron` (`cron`) schemas, to `search_path` so converted code can reference them without schema qualification.
+`orafce` installs Oracle-compatible packages in dedicated schemas (`oracle`, `dbms_*`, `plv*`, `utl_file`). Set `search_path` at the database level so those schemas, along with the PostGIS (`topology`, `tiger`) schemas, are available to every connection. A database-level setting also covers objects that can't qualify a reference themselves, such as views, `CHECK` constraints, column defaults, and generated columns.
 
 ```sql
-SET search_path TO public, oracle, topology, tiger, cron,
+ALTER DATABASE <database_name> SET search_path = public, oracle, topology, tiger,
     dbms_random, dbms_alert, dbms_assert, dbms_output, dbms_pipe,
     dbms_sql, dbms_utility, plvchr, plvdate, plvlex, plvstr,
     plvsubst, plunit, utl_file;
 ```
 
-To persist the setting across sessions, set it at the database level by using `ALTER DATABASE <db> SET search_path = ...` or at the role level by using `ALTER ROLE <role> SET search_path = ...`.
+Include only the schemas for the extensions that you installed. Reconnect after you run this statement, because the new value applies to sessions that start after the change. To scope the setting to a single role instead, use `ALTER ROLE <role_name> SET search_path = ...`.
+
+> [!IMPORTANT]  
+> PostgreSQL always searches `pg_catalog` first, so a function that collides with a built-in resolves to the PostgreSQL version even when `oracle` is on `search_path`. `to_char`, `to_date`, and `substr` behave this way. Call these functions as `oracle.to_char(...)` when you need Oracle semantics.
 
 ## Configure Microsoft Foundry capacity
 
@@ -134,7 +163,7 @@ Microsoft Foundry capacity directly affects conversion reliability, especially f
 - Configure your Microsoft Foundry deployment with a quota of at least **500,000 tokens per minute (TPM)** for optimal performance. Complex schema objects consume significant token capacity during conversion.
 - Monitor consumption from the Microsoft Foundry portal and raise the limit if you observe throttling during a conversion run.
 
-:::image type="content" source="media/schema-conversions-best-practices/token-per-minute.png" alt-text="Screenshot of the tokens per minute setting in Microsoft Foundry.":::
+:::image type="content" source="media/schema-conversions-best-practices/token-per-minute.png" alt-text="Screenshot of the tokens per minute setting in Microsoft Foundry." lightbox="media/schema-conversions-best-practices/token-per-minute.png" :::
 
 ### Run one project at a time
 
@@ -164,7 +193,7 @@ Don't embed Oracle or PostgreSQL credentials in plain text and don't commit them
 
 Automated conversion accelerates migration, but manual validation is essential to catch semantic differences, platform-specific behaviors, and edge cases that AI or tooling might miss. The schema conversion report flags objects that the tool extracted but couldn't fully convert as **review tasks**. Work through these tasks first, and spot-check complex objects that converted cleanly.
 
-For details about the artifacts the tool produces and the recommended review order, see [Schema conversion reports for Oracle to Azure Database for PostgreSQL](schema-conversions-reports.md).
+For details about the artifacts the tool produces and the recommended review order, see [Schema conversion reports for Oracle to Azure Database for PostgreSQL flexible server](schema-conversions-reports.md).
 
 ### Validate complex code objects
 
@@ -189,7 +218,7 @@ A conversion run is repeatable. Rerun the conversion whenever the inputs change 
 
 Rerun the conversion when you:
 
-- **Adjust the target scratch database**. For example, you allow list a missing extension, install a new extension, or correct `search_path`.
+- **Adjust the target scratch database**. For example, you allowlist a missing extension, install a new extension, or correct `search_path`.
 - **Adjust the source Oracle side**. For example, you bring an additional schema into scope, drop a problem object, or fix metadata corruption in a source object.
 - **Adjust Microsoft Foundry capacity**. For example, you raise the TPM quota after observing throttling in the previous run.
 
@@ -207,7 +236,7 @@ Store the artifacts in your team's source-control or document-management system.
 
 ## Related content
 
-- [Oracle to Azure Database for PostgreSQL schema conversion overview](schema-conversions-overview.md)
-- [Tutorial: Convert Oracle schemas to Azure Database for PostgreSQL](schema-conversions-tutorial.md)
-- [Review tasks and output folders for Oracle to Azure Database for PostgreSQL schema conversion](schema-conversions-review-tasks-artifacts.md)
-- [Oracle to Azure Database for PostgreSQL schema conversion limitations](schema-conversions-limitations.md)
+- [What is Oracle to Azure Database for PostgreSQL flexible server schema conversion?](schema-conversions-overview.md)
+- [Tutorial: Oracle to Azure Database for PostgreSQL flexible server schema conversion](schema-conversions-tutorial.md)
+- [Review tasks and output folders for Oracle to Azure Database for PostgreSQL flexible server schema conversion](schema-conversions-review-tasks-artifacts.md)
+- [Oracle to Azure Database for PostgreSQL flexible server schema conversion limitations](schema-conversions-limitations.md)
