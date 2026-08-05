@@ -22,6 +22,7 @@ Welcome to the centralized index of maintenance release notes for **Azure Databa
 ## Release notes by year
 
 ### 2026
+- [August-2026](./2026-august.md)
 - [July-2026](./2026-july.md)
 - [June-2026](./2026-june.md)
 - [April-2026](./2026-april.md)
