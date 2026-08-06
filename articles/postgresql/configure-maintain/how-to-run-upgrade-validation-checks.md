@@ -80,7 +80,7 @@ az postgres flexible-server upgrade \
   --validate-only
 ```
 
-The command returns the pre-upgrade validation results without upgrading the server. If the results identify blocking issues, resolve them before you rerun the command or start the major version upgrade.
+The command returns the pre-upgrade validation results without upgrading the server. If the results identify blocking problems, resolve them before you rerun the command or start the major version upgrade.
 
 ---
 

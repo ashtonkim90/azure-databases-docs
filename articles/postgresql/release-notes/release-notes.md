@@ -20,7 +20,7 @@ This article highlights the latest updates and enhancements for Azure Database f
 ## Release: August 2026
 
 - General availability
-  - [Pre-upgrade validation checks](../configure-maintain/concepts-major-version-upgrade.md#upgrade-validation-checks) to identify upgrade-blocking issues before starting a major version upgrade.
+  - [Pre-upgrade validation checks](../configure-maintain/concepts-major-version-upgrade.md#upgrade-validation-checks) to identify upgrade-blocking problems before starting a major version upgrade.
 
 ## Release: July 2026
 
@@ -38,7 +38,7 @@ This article highlights the latest updates and enhancements for Azure Database f
   - Support for [apply maintenance on-demand](../configure-maintain/concepts-maintenance.md#apply-maintenance-on-demand)
   
 - Preview
-  - [Pre-upgrade validation checks](../configure-maintain/concepts-major-version-upgrade.md#upgrade-validation-checks) to help identify upgrade-blocking issues before starting the upgrade.
+  - [Pre-upgrade validation checks](../configure-maintain/concepts-major-version-upgrade.md#upgrade-validation-checks) to help identify upgrade-blocking problems before starting the upgrade.
 
 ## Release: April 2026
 
