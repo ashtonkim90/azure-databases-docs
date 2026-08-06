@@ -63,7 +63,7 @@ Use extended support if you...
 
 - Automatic enrollment: On August 1, 2026, the service automatically enrolls PostgreSQL servers running unsupported versions in Extended Support.
 - Opt-out option: You can opt out at any time by upgrading to a supported version.
-- Grace period: A one-month grace period will be provided for PostgreSQL versions 11, 12, and 13. Extended support billing will begin on September 1, 2026.
+- Grace period: A one-month grace period is provided for PostgreSQL versions 11, 12, and 13. Extended support billing starts on September 1, 2026.
 - Pricing: Details are published on this [page](https://azure.microsoft.com/pricing/details/postgresql/flexible-server/?cdn=disable).
 
 ### Frequently asked questions (FAQs)
