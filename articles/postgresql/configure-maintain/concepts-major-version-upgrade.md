@@ -5,7 +5,7 @@ description: Learn how to use Azure Database for PostgreSQL to do in-place major
 author: varun-dhawan
 ms.author: varundhawan
 ms.reviewer: maghan
-ms.date: 07/16/2026
+ms.date: 08/06/2026
 ms.service: azure-database-postgresql
 ms.subservice: configuration
 ms.topic: concept-article
@@ -25,13 +25,15 @@ In-place upgrades retain the server name and other settings of the current serve
 > [!NOTE]
 > Azure Database for PostgreSQL supports in-place major version upgrades only to currently supported PostgreSQL versions. The target version must be officially supported by Azure at the time of the upgrade. The Azure portal prevents selecting unsupported versions, but API or CLI calls that target a deprecated version fail. Always consult the [Azure PostgreSQL versioning policy](/azure/postgresql/flexible-server/concepts-version-policy) and [upgrade how-to guide](/azure/postgresql/flexible-server/how-to-perform-major-version-upgrade) before initiating a major version upgrade.
 
-## Upgrade validation checks (Preview)
+## Upgrade validation checks
 
 Azure Database for PostgreSQL flexible server provides Upgrade Validation Checks to help assess upgrade readiness before starting a major version upgrade.
 
 Upgrade Validation Checks run a series of compatibility and configuration validations against the server to identify conditions that could cause the upgrade to fail or behave unexpectedly. Common checks include unsupported extensions, logical replication slots, prepared transactions, event triggers, unsupported object dependencies, and pending restart-required configuration changes.
 
 The validation process is designed to evaluate upgrade readiness without initiating the actual upgrade operation. The same validation checks are also performed automatically during the major version upgrade workflow. These checks don't modify the server version, trigger downtime, or restart the server. Run validation checks before scheduling a production upgrade window.
+
+You can run upgrade validation checks in the Azure portal or with the Azure CLI. For instructions, see [Run upgrade validation checks](how-to-run-upgrade-validation-checks.md).
 
 After the validation completes, one of the following outcomes is returned:
 
@@ -50,7 +52,7 @@ When using the Upgrade Validation Checks, consider the following limitations:
 - Validation checks require connectivity to all databases on the server. Unresponsive or inaccessible databases can cause validation failures.
 - Although validation checks don't cause downtime, consider running them during periods of lower database activity.
 
-For step-by-step instructions, see [Run upgrade validation checks (Preview)](how-to-run-upgrade-validation-checks.md).
+For step-by-step instructions, see [Run upgrade validation checks](how-to-run-upgrade-validation-checks.md).
 
 ## Upgrade process
 
@@ -74,7 +76,7 @@ Here are some important considerations for in-place major version upgrades:
 If a precheck operation fails during an in-place major version upgrade, the upgrade process stops and displays a detailed error message. The following known limitations can cause the upgrade to fail or behave unexpectedly:
 
 > [!IMPORTANT]
-> Upgrade compatibility requirements can vary by source and target PostgreSQL version and change over time. The lists in this section are a general reference and might not reflect the exact checks for your upgrade path. Before scheduling an upgrade, run [Upgrade validation checks (Preview)](#upgrade-validation-checks-preview) against your server to get the current, authoritative set of issues that would block your specific upgrade - including any logical replication slot requirements.
+> Upgrade compatibility requirements can vary by source and target PostgreSQL version and change over time. The lists in this section are a general reference and might not reflect the exact checks for your upgrade path. Before scheduling an upgrade, run [upgrade validation checks](#upgrade-validation-checks) against your server to get the current, authoritative set of issues that would block your specific upgrade - including any logical replication slot requirements.
 
 ### Unsupported server configurations
 
@@ -171,4 +173,4 @@ See [Download PostgreSQL and upgrade logs](../monitor/how-to-configure-server-lo
 ## Related content
 
 - [Major version upgrade](how-to-perform-major-version-upgrade.md?tabs=portal)
-- [Run upgrade validation checks (Preview)](how-to-run-upgrade-validation-checks.md)
+- [Run upgrade validation checks](how-to-run-upgrade-validation-checks.md)

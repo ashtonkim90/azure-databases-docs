@@ -5,7 +5,7 @@ description: This article describes how to run upgrade validation checks for Azu
 author: varun-dhawan
 ms.author: varundhawan
 ms.reviewer: maghan
-ms.date: 07/08/2026
+ms.date: 08/06/2026
 ms.service: azure-database-postgresql
 ms.subservice: configuration
 ms.topic: how-to
@@ -15,7 +15,7 @@ ms.custom:
   - build-2026
 ---
 
-# Run upgrade validation checks (Preview) in Azure Database for PostgreSQL flexible server
+# Run upgrade validation checks in Azure Database for PostgreSQL flexible server
 
 This article describes how to run upgrade validation checks for Azure Database for PostgreSQL flexible server.
 
@@ -48,7 +48,7 @@ Use the [Azure portal](https://portal.azure.com/):
 
    :::image type="content" source="media/how-to-run-upgrade-validation-checks/set-postgresql-version.png" alt-text="Screenshot showing the Upgrade pane, from where you can select the major version to which you want to upgrade." lightbox="media/how-to-run-upgrade-validation-checks/set-postgresql-version.png"::: 
 
-1. For **Action**, select **Validate and upgrade** to run the validation rules and, if they all pass, it immediately upgrades the server to the selected target version. It warns you about the consequences of initiating the upgrade.
+1. For **Action**, select **Validate only** to run the validation rules without upgrading the server.
 
    :::image type="content" source="media/how-to-run-upgrade-validation-checks/action.png" alt-text="Screenshot showing the Action option configured as Validate only." lightbox="media/how-to-run-upgrade-validation-checks/action.png"::: 
 
@@ -70,7 +70,17 @@ Use the [Azure portal](https://portal.azure.com/):
 
 ### [CLI](#tab/cli-major-version-upgrade-validation-checks)
 
-[!INCLUDE [no-native-cli-support](../includes/no-native-cli-support.md)]
+Use Azure CLI version 2.89.0 or later. Run the [az postgres flexible-server upgrade](/cli/azure/postgres/flexible-server#az-postgres-flexible-server-upgrade) command with the `--validate-only` parameter:
+
+```azurecli
+az postgres flexible-server upgrade \
+  --resource-group <resource_group> \
+  --name <server> \
+  --version <target_version> \
+  --validate-only
+```
+
+The command returns the pre-upgrade validation results without upgrading the server. If the results identify blocking problems, resolve them before you rerun the command or start the major version upgrade.
 
 ---
 

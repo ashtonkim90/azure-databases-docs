@@ -4,7 +4,7 @@ description: Release notes for Azure Database for PostgreSQL, including feature 
 author: varun-dhawan
 ms.author: varundhawan
 ms.reviewer: maghan
-ms.date: 07/24/2026
+ms.date: 08/06/2026
 ms.service: azure-database-postgresql
 ms.subservice: configuration
 ms.topic: concept-article
@@ -16,6 +16,11 @@ ms.custom:
 # Release notes - Azure Database for PostgreSQL flexible server
 
 This article highlights the latest updates and enhancements for Azure Database for PostgreSQL service, including new feature releases, supported engine versions, available extensions, and other important announcements.
+
+## Release: August 2026
+
+- General availability
+  - [Pre-upgrade validation checks](../configure-maintain/concepts-major-version-upgrade.md#upgrade-validation-checks) to identify upgrade-blocking problems before starting a major version upgrade.
 
 ## Release: July 2026
 
@@ -33,7 +38,7 @@ This article highlights the latest updates and enhancements for Azure Database f
   - Support for [apply maintenance on-demand](../configure-maintain/concepts-maintenance.md#apply-maintenance-on-demand)
   
 - Preview
-  - [Pre-Upgrade Validation Checks](../configure-maintain/concepts-major-version-upgrade.md#upgrade-validation-checks-preview) to help identify upgrade blocking issues before starting the upgrade.
+  - [Pre-upgrade validation checks](../configure-maintain/concepts-major-version-upgrade.md#upgrade-validation-checks) to help identify upgrade-blocking problems before starting the upgrade.
 
 ## Release: April 2026
 
