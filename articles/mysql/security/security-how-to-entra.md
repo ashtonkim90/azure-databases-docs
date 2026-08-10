@@ -415,7 +415,7 @@ If your application uses Microsoft Entra authentication to connect to Azure Data
 
 ### Why this matters
 
-Applications that acquire tokens for audiences other than `https://ossrdbms-aad.database.windows.net` may continue to work today in some scenarios, but such configurations are not recommended and will not be supported in future service updates. After stricter audience validation is enabled, connections that present tokens with unsupported audiences will fail authentication. They would be unable to connect to Azure Database for MySQL Flexible Server until they are updated to use the supported audience.
+Applications that acquire tokens for audiences other than `https://ossrdbms-aad.database.windows.net` will not be supported in future service updates. After stricter audience validation is enabled, connections that present tokens with unsupported audiences will fail authentication. They can't connect to Azure Database for MySQL Flexible Server until they are updated to use the supported audience.
 
 ## Next step
 
