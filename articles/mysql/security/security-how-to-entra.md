@@ -354,7 +354,7 @@ CREATE AADUSER 'userWithLongName@yourtenant.onmicrosoft.com' as 'userDefinedShor
 
 ## Create Microsoft Entra groups in Azure Database for MySQL
 
-To enable a Microsoft Entra group for access to your database, use the same mechanism as for users, but specify the group name:
+To enable a Microsoft Entra group to access your database, use the same mechanism as for users, but specify the group name:
 
 *Example:*
 
@@ -362,7 +362,7 @@ To enable a Microsoft Entra group for access to your database, use the same mech
 CREATE AADUSER 'Prod_DB_Readonly';
 ```
 
-When logging in, group members use their personal access tokens but sign in with the group name specified as the username.
+When members of the group sign in, they use their personal access tokens but sign in by using the group name as the username.
 
 ## Compatibility with application drivers
 
@@ -401,6 +401,21 @@ Most drivers are supported. However, make sure to use the settings for sending t
   - `mysqli` extension: Supported
 
   - PDO_MYSQL driver: Supported
+
+## Use the recommended Microsoft Entra token audience
+
+Azure Database for MySQL Flexible Server is transitioning from the legacy JWT-based Microsoft Entra authentication implementation to Microsoft Identity Security Essentials (MISE). MySQL Flexible Server validates Microsoft Entra access tokens during authentication. To improve security and ensure consistent authentication behavior across the service, future platform updates enforce stricter validation of token audiences.
+Applications should request access tokens by using the following recommended audience:
+
+`
+https://ossrdbms-aad.database.windows.net
+`
+
+If your application uses Microsoft Entra authentication to connect to Azure Database for MySQL Flexible Server, review your token acquisition configuration and ensure that you request access tokens for the correct audience. This recommendation applies to all authentication flows, including applications, automation, managed identities, service principals, and user-based authentication scenarios. Using the recommended audience helps ensure compatibility with future service enhancements and security improvements. It helps you avoid future connectivity disruptions and ensures your applications remain compatible with ongoing security and authentication improvements.
+
+### Why this matters
+
+Applications that acquire tokens for audiences other than `https://ossrdbms-aad.database.windows.net` may continue to work today in some scenarios, but such configurations are not recommended and will not be supported in future service updates. After stricter audience validation is enabled, connections that present tokens with unsupported audiences will fail authentication. They would be unable to connect to Azure Database for MySQL Flexible Server until they are updated to use the supported audience.
 
 ## Next step
 
